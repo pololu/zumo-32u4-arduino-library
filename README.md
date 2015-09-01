@@ -1,7 +1,7 @@
 # Zumo32U4 library
 
-Version: 1.1.0<br/>
-Release date: 2015 May 06<br/>
+Version: 1.1.1<br/>
+Release date: 2015 Sep 01<br/>
 [www.pololu.com](http://www.pololu.com/)
 
 ## Summary
@@ -16,15 +16,23 @@ Please note that this library does NOT work with the Zumo Shield for Arduino, wh
 
 ## Installing the library
 
-You can download this library from the [Zumo 32U4 Robot User's Guide](https://www.pololu.com/docs/0J63), or from the [a-star repository on GitHub](https://github.com/pololu/a-star).  Extract the files from the downloaded ZIP file and find the "Zumo32U4" directory, which is inside the "libraries" folder.  Copy the "Zumo32U4" folder into the "libraries" subdirectory inside your Arduino sketchbook directory.  The Arduino sketchbook location is typically in your Documents folder in a subfolder named "Arduino".  You can see the sketchbook location in the Arduino IDE Preferences dialog, which is available from the File menu.
+If you are using version 1.6.2 or later of the [Arduino software (IDE)](http://www.arduino.cc/en/Main/Software), you can use the Library Manager to install this library:
 
-For example, if you are using Windows and you have not changed the sketchbook location, the "Zumo32U4" folder would be copied to:
+1. In the Arduino IDE, open the "Sketch" menu, select "Include Library", then "Manage Libraries...".
+2. Search for "Zumo32U4".
+3. Click the Zumo32U4 entry in the list.
+4. Click "Install".
 
-    C:\Users\<username>\Documents\Arduino\libraries\Zumo32U4
+If this does not work, you can manually install the library:
 
-Next, restart the Arduino IDE.
+1. Download the [latest release archive from GitHub](https://github.com/pololu/zumo-32u4-arduino-library) and decompress it.
+2. Rename the folder "zumo-32u4-arduino-library-master" to "Zumo32U4".
+3. Move the "Zumo32U4" folder into the "libraries" directory inside your Arduino sketchbook directory.  You can view your sketchbook location by opening the "File" menu and selecting "Preferences" in the Arduino IDE.  If there is not already a "libraries" folder in that location, you should make the folder yourself.
+4. After installing the library, restart the Arduino IDE.
 
-After installing, you should look for the "Zumo32U4" entry in the "Examples" menu.  This is where you can find all the example code provided by this library.  If you cannot find the examples, then the library was probably not installed correctly and you should retry the installation instructions above.
+## Examples
+
+Several example sketches are available that show how to use the library.  You can access them from the Arduino IDE by opening the "File" menu, selecting "Examples", and then selecting "Zumo32U4".  If you cannot find these examples, the library was probably installed incorrectly and you should retry the installation instructions above.
 
 ## Classes and functions
 
@@ -72,10 +80,11 @@ You should avoid adding extra `#include` lines such as `#include <Pushbutton.h>`
 
 ## Documentation
 
-For complete documentation, see https://pololu.github.io/zumo-32u4.  If you are already on that page, then click on the links in the "Classes and functions" section above.
+For complete documentation, see https://pololu.github.io/zumo-32u4-arduino-library.  If you are already on that page, then click on the links in the "Classes and functions" section above.
 
 ## Version history
 
+* 1.1.1 (2015 Sep 01): Moved the library out of the a-star repository into its own repository. Added Demo example.
 * 1.1.0 (2015 May 06): Updated FastGPIO to version 1.0.2.  Fixed a bug in Zumo32U4ProximitySensors where the wrong array length was used.  Added five demos: RotationResist, FaceUphill, RemoteControl, Balancing, and SumoProximitySensors.
 * 1.0.1 (2015 Mar 11): Improve the Buttons example.
 * 1.0.0 (2015 Mar 05): Original release.
