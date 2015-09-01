@@ -1,0 +1,80 @@
+Zumo32U4LCD	KEYWORD1
+
+ZUMO_32U4_BUTTON_A	LITERAL1
+ZUMO_32U4_BUTTON_B	LITERAL1
+ZUMO_32U4_BUTTON_C	LITERAL1
+Zumo32U4ButtonA	KEYWORD1
+Zumo32U4ButtonB	KEYWORD1
+Zumo32U4ButtonC	KEYWORD1
+
+Zumo32U4Buzzer	KEYWORD1
+
+Zumo32U4Motors	KEYWORD1
+flipLeftMotor	KEYWORD2
+flipRightMotor	KEYWORD2
+setLeftSpeed	KEYWORD2
+setRightSpeed	KEYWORD2
+setSpeeds	KEYWORD2
+
+Zumo32U4Encoders	KEYWORD1
+init	KEYWORD2
+getCountsLeft	KEYWORD2
+getCountsRight	KEYWORD2
+getCountsAndResetLeft	KEYWORD2
+getCountsAndResetRight	KEYWORD2
+checkErrorLeft	KEYWORD2
+checkErrorRight	KEYWORD2
+
+Zumo32U4IRPulses	KEYWORD1
+defaultPeriod	KEYWORD2
+getPulseCount	KEYWORD2
+start	KEYWORD2
+stop	KEYWORD2
+
+Zumo32U4LineSensors	KEYWORD1
+SENSOR_DOWN1	LITERAL1
+SENSOR_DOWN2	LITERAL1
+SENSOR_DOWN3	LITERAL1
+SENSOR_DOWN4	LITERAL1
+SENSOR_DOWN5	LITERAL1
+SENSOR_LEDON	LITERAL1
+initThreeSensors	KEYWORD2
+initFiveSensors	KEYWORD2
+
+Zumo32U4ProximitySensors	KEYWORD1
+SENSOR_LEFT	LITERAL1
+SENSOR_FRONT	LITERAL1
+SENSOR_RIGHT	LITERAL1
+SENSOR_NO_PIN	LITERAL1
+initThreeSensors	KEYWORD2
+initFrontSensor	KEYWORD2
+getNumSensors	KEYWORD2
+defaultPeriod	KEYWORD2
+defaultPulseOnTimeUs	KEYWORD2
+defaultPulseOffTimeUs	KEYWORD2
+setPeriod	KEYWORD2
+setBrightnessLevels	KEYWORD2
+setPulseOnTimeUs	KEYWORD2
+setPulseOffTimeUs	KEYWORD2
+getNumBrightnessLevels	KEYWORD2
+lineSensorEmittersOff	KEYWORD2
+pullupsOn	KEYWORD2
+readBasic	KEYWORD2
+read	KEYWORD2
+countsWithLeftLeds	KEYWORD2
+countsWithRightLeds	KEYWORD2
+countsLeftWithLeftLeds	KEYWORD2
+countsLeftWithRightLeds	KEYWORD2
+countsFrontWithLeftLeds	KEYWORD2
+countsFrontWithRightLeds	KEYWORD2
+countsRightWithLeftLeds	KEYWORD2
+countsRightWithRightLeds	KEYWORD2
+readBasicLeft	KEYWORD2
+readBasicFront	KEYWORD2
+readBasicRight	KEYWORD2
+
+ledRed	KEYWORD2
+ledGreen	KEYWORD2
+ledYellow	KEYWORD2
+usbPowerPresent	KEYWORD2
+readBatteryMillivolts	KEYWORD2
