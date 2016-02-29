@@ -23,6 +23,8 @@ L3G gyro;
 Zumo32U4Motors motors;
 Zumo32U4Encoders encoders;
 
+char buttonMonitor();
+
 class Menu
 {
 public:
