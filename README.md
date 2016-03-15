@@ -1,7 +1,7 @@
 # Zumo32U4 library
 
 Version: 1.1.2<br/>
-Release date: 2016 Feb 29<br/>
+Release date: 2016 Mar 14<br/>
 [www.pololu.com](http://www.pololu.com/)
 
 ## Summary
@@ -84,7 +84,7 @@ For complete documentation, see https://pololu.github.io/zumo-32u4-arduino-libra
 
 ## Version history
 
-* 1.1.2 (2016 Feb 29): Updated the Demo example so it can compile in Arduino 1.6.7.
+* 1.1.2 (2016 Mar 14): Updated the Demo example so it can compile in Arduino 1.6.7.
 * 1.1.1 (2015 Sep 01): Moved the library out of the a-star repository into its own repository. Added Demo example.
 * 1.1.0 (2015 May 06): Updated FastGPIO to version 1.0.2.  Fixed a bug in Zumo32U4ProximitySensors where the wrong array length was used.  Added five demos: RotationResist, FaceUphill, RemoteControl, Balancing, and SumoProximitySensors.
 * 1.0.1 (2015 Mar 11): Improve the Buttons example.
