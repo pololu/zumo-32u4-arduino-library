@@ -39,14 +39,14 @@ uint16_t readSensors()
 }
 
 // Returns true if the sensor is seeing a line.
-// Make sure to call readSensrs() before calling this.
+// Make sure to call readSensors() before calling this.
 bool aboveLine(uint8_t sensorIndex)
 {
   return lineSensorValues[sensorIndex] > sensorThreshold;
 }
 
 // Returns true if the sensor is seeing a lot of darkness.
-// Make sure to call readSensrs() before calling this.
+// Make sure to call readSensors() before calling this.
 bool aboveLineDark(uint8_t sensorIndex)
 {
   return lineSensorValues[sensorIndex] > sensorThresholdDark;
@@ -55,7 +55,7 @@ bool aboveLineDark(uint8_t sensorIndex)
 // Checks to see if we are over a dark spot, like the ones used
 // to mark the end of a maze.  If all the middle sensors are over
 // dark black, that means we have found the spot.
-// Make sure to call readSensrs() before calling this.
+// Make sure to call readSensors() before calling this.
 bool aboveDarkSpot()
 {
   return aboveLineDark(1) && aboveLineDark(2) && aboveLineDark(3);
