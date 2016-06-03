@@ -107,8 +107,8 @@ public:
    * the released state.
    *
    * There is no strict guarantee that every debounced button press event
-   * returned by getSingleDebouncedButtonPress() will have a corresponding
-   * button release event returned by getSingleDebouncedButtonRelease(); the two
+   * returned by getSingleDebouncedPress() will have a corresponding
+   * button release event returned by getSingleDebouncedRelease(); the two
    * functions use independent state machines and sample the button at different
    * times. */
   bool getSingleDebouncedRelease();
