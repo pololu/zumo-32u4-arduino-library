@@ -2,6 +2,7 @@
 
 Version: 1.1.3<br/>
 Release date: 2016-10-12<br/>
+[![Build Status](https://travis-ci.org/pololu/zumo-32u4-arduino-library.svg?branch=master)](https://travis-ci.org/pololu/zumo-32u4-arduino-library)<br/>
 [www.pololu.com](http://www.pololu.com/)
 
 ## Summary
