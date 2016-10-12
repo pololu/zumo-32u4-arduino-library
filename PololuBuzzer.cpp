@@ -31,32 +31,31 @@ static const unsigned int cs2_divider[] = {0, 1, 8, 32, 64, 128, 256, 1024};
 
 unsigned char buzzerInitialized = 0;
 volatile unsigned char buzzerFinished = 1;  // flag: 0 while playing
-const char *buzzerSequence = 0;
+const char * volatile buzzerSequence = 0;
 
 // declaring these globals as static means they won't conflict
 // with globals in other .cpp files that share the same name
 static volatile unsigned int buzzerTimeout = 0;    // tracks buzzer time limit
-static char play_mode_setting = PLAY_AUTOMATIC;
+static volatile char play_mode_setting = PLAY_AUTOMATIC;
 
 extern volatile unsigned char buzzerFinished;  // flag: 0 while playing
-extern const char *buzzerSequence;
+extern const char * volatile buzzerSequence;
 
 
-static unsigned char use_program_space; // boolean: true if we should
+static volatile unsigned char use_program_space; // boolean: true if we should
                     // use program space
 
 // music settings and defaults
-static unsigned char octave = 4;        // the current octave
-static unsigned int whole_note_duration = 2000;  // the duration of a whole note
-static unsigned int note_type = 4;              // 4 for quarter, etc
-static unsigned int duration = 500;        // the duration of a note in ms
-static unsigned int volume = 15;        // the note volume
-static unsigned char staccato = 0;       // true if playing staccato
+static volatile unsigned char octave = 4;                 // the current octave
+static volatile unsigned int whole_note_duration = 2000;  // the duration of a whole note
+static volatile unsigned int note_type = 4;               // 4 for quarter, etc
+static volatile unsigned int duration = 500;              // the duration of a note in ms
+static volatile unsigned int volume = 15;                 // the note volume
+static volatile unsigned char staccato = 0;               // true if playing staccato
 
 // staccato handling
-static unsigned char staccato_rest_duration;  // duration of a staccato
-                        //  rest, or zero if it is time
-                        //  to play a note
+static volatile unsigned char staccato_rest_duration;  // duration of a staccato rest,
+                                              // or zero if it is time to play a note
 
 static void nextNote();
 
@@ -615,8 +614,7 @@ static void nextNote()
     goto parse_character;
   case 'o':
     // set the octave permanently
-    octave = getNumber();
-    tmp_octave = octave;
+    octave = tmp_octave = getNumber();
     goto parse_character;
   case 'r':
     // Rest - the note value doesn't matter.

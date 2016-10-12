@@ -1,4 +1,4 @@
-// Copyright Pololu Corporation.  For more information, see http://www.pololu.com/
+// Copyright Pololu Corporation.  For more information, see https://www.pololu.com/
 
 /*! \file USBPause.h
  *

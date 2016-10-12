@@ -42,14 +42,14 @@ copylib()
 }
 
 library .
-copylib https://github.com/pololu/fastgpio-arduino ../fastgpio-arduino/FastGPIO FastGPIO.h
-copylib https://github.com/pololu/usb-pause-arduino ../usb-pause-arduino/USBPause USBPause.h
-copylib https://github.com/pololu/pushbutton-arduino ../pushbutton-arduino/Pushbutton Pushbutton{.cpp,.h}
+copylib https://github.com/pololu/fastgpio-arduino ../fastgpio-arduino FastGPIO.h
+copylib https://github.com/pololu/usb-pause-arduino ../usb-pause-arduino USBPause.h
+copylib https://github.com/pololu/pushbutton-arduino ../pushbutton-arduino Pushbutton{.cpp,.h}
 copylib https://github.com/pololu/pololu-buzzer-arduino ../pololu-buzzer-arduino/PololuBuzzer PololuBuzzer{.cpp,.h}
-copylib https://github.com/pololu/pololu-hd44780-arduino ../pololu-hd44780-arduino/PololuHD44780 PololuHD44780{.cpp,.h}
-copylib https://github.com/pololu/lsm303-arduino ../lsm303-arduino/LSM303 LSM303{.cpp,.h}
-copylib https://github.com/pololu/l3g-arduino ../l3g-arduino/L3G L3G{.cpp,.h}
-copylib https://github.com/pololu/qtr-sensors-arduino ../qtr-sensors-arduino/QTRSensors QTRSensors{.cpp,.h}
+copylib https://github.com/pololu/pololu-hd44780-arduino ../pololu-hd44780-arduino PololuHD44780{.cpp,.h}
+copylib https://github.com/pololu/lsm303-arduino ../lsm303-arduino LSM303{.cpp,.h}
+copylib https://github.com/pololu/l3g-arduino ../l3g-arduino L3G{.cpp,.h}
+copylib https://github.com/pololu/qtr-sensors-arduino ../qtr-sensors-arduino QTRSensors{.cpp,.h}
 
 # The Zumo32U4 library has some files that are reused between examples, and we
 # would like those to stay synchronized.

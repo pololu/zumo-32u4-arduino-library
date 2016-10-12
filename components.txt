@@ -1,9 +1,9 @@
 
-https://github.com/pololu/fastgpio-arduino 1.0.2-1-ga80ffb9
-https://github.com/pololu/usb-pause-arduino 1.0.0-1-gdc0010e
-https://github.com/pololu/pushbutton-arduino 1.1.1
-https://github.com/pololu/pololu-buzzer-arduino 1.0.0
-https://github.com/pololu/pololu-hd44780-arduino 1.0.0-1-g0edb20e
-https://github.com/pololu/lsm303-arduino 2.1.0-1-g0139b82
-https://github.com/pololu/l3g-arduino 2.0.0-1-g71cd3d6
-https://github.com/pololu/qtr-sensors-arduino 2.1.1
+https://github.com/pololu/fastgpio-arduino 2.0.0
+https://github.com/pololu/usb-pause-arduino 2.0.0
+https://github.com/pololu/pushbutton-arduino 2.0.0
+https://github.com/pololu/pololu-buzzer-arduino 1.0.1
+https://github.com/pololu/pololu-hd44780-arduino 2.0.0-1-gc2ceb6f
+https://github.com/pololu/lsm303-arduino 3.0.1
+https://github.com/pololu/l3g-arduino 3.0.0
+https://github.com/pololu/qtr-sensors-arduino 3.0.0
