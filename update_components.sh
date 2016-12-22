@@ -7,7 +7,7 @@ library()
   KEYWORDS=$LIBDIR/keywords.txt
   COMPONENT_VERSIONS=$LIBDIR/components.txt
 
-  echo > $COMPONENT_VERSIONS
+  echo -n > $COMPONENT_VERSIONS
   (cat $LIBDIR/local_keywords.txt; echo) > $KEYWORDS
 }
 
