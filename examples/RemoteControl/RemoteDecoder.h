@@ -433,9 +433,9 @@ private:
   // when getAndResetErrorFlag() is called.
   bool errorFlag = false;
 
-  // If codeValid is true, this holds the last command code
-  // received.  The first two bytes should be the address, and
-  // the second two bytes should be the command.
+  // Holds the last message received.  The first two bytes should
+  // be the address, and the second two bytes should be the
+  // command.
   uint8_t message[messageSize];
 
 
