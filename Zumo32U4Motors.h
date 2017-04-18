@@ -44,14 +44,14 @@ class Zumo32U4Motors
      * reverse, and values of 400 or more result in full speed forward. */
     static void setLeftSpeed(int16_t speed);
 
-    /** \brief Sets the speed for the left motor.
+    /** \brief Sets the speed for the right motor.
      *
      * \param speed A number from -400 to 400 representing the speed and
      * direction of the right motor. Values of -400 or less result in full speed
      * reverse, and values of 400 or more result in full speed forward. */
     static void setRightSpeed(int16_t speed);
 
-    /** \brief Sets the speed for the left motor.
+    /** \brief Sets the speeds for both motors simultaneously.
      *
      * \param leftSpeed A number from -400 to 400 representing the speed and
      * direction of the right motor. Values of -400 or less result in full speed
