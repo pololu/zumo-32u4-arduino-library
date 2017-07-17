@@ -1,7 +1,7 @@
 # Zumo32U4 library
 
-Version: 1.1.3<br/>
-Release date: 2016-10-12<br/>
+Version: 1.1.4<br/>
+Release date: 2017-07-17<br/>
 [![Build Status](https://travis-ci.org/pololu/zumo-32u4-arduino-library.svg?branch=master)](https://travis-ci.org/pololu/zumo-32u4-arduino-library)<br/>
 [www.pololu.com](http://www.pololu.com/)
 
@@ -85,6 +85,7 @@ For complete documentation, see https://pololu.github.io/zumo-32u4-arduino-libra
 
 ## Version history
 
+* 1.1.4 (2017-07-17): Fixed a bug that caused errors from the right encoder to be reported as errors from the left encoder.
 * 1.1.3 (2016-10-12): Fixed a bug that caused the buzzer's `isPlaying` method to malfunction sometimes when link time optimization is enabled.  Also incorporated some minor fixes to the QTRSensors and LSM303 libraries.
 * 1.1.2 (2016-03-14): Updated the Demo example so it can compile in Arduino 1.6.7.
 * 1.1.1 (2015-09-01): Moved the library out of the a-star repository into its own repository. Added Demo example.
