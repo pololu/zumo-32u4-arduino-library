@@ -48,7 +48,7 @@ static void rightISR()
 
     if((lastRightA ^ newRightA) & (lastRightB ^ newRightB))
     {
-        errorLeft = true;
+        errorRight = true;
     }
 
     lastRightA = newRightA;
