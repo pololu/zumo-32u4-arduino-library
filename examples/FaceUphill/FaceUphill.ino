@@ -24,7 +24,7 @@ to 0. */
 
 const int16_t maxSpeed = 150;
 
-LSM303 lsm303;
+Zumo32U4IMU imu;
 Zumo32U4Motors motors;
 Zumo32U4LCD lcd;
 Zumo32U4ButtonA buttonA;
@@ -32,10 +32,10 @@ Zumo32U4Encoders encoders;
 
 void setup()
 {
-  // Start I2C and initialize the LSM303 accelerometer.
+  // Start I2C and initialize the IMU sensors.
   Wire.begin();
-  lsm303.init();
-  lsm303.enableDefault();
+  imu.init();
+  imu.enableDefault();
 
   lcd.clear();
   lcd.print(F("Press A"));
@@ -47,9 +47,9 @@ void loop()
 {
   // Read the acceleration from the LSM303.
   // A value of 16384 corresponds to approximately 1 g.
-  lsm303.read();
-  int16_t x = lsm303.a.x;
-  int16_t y = lsm303.a.y;
+  imu.readAcc();
+  int16_t x = imu.a.x;
+  int16_t y = imu.a.y;
   int32_t magnitudeSquared = (int32_t)x * x + (int32_t)y * y;
 
   // Display the X and Y acceleration values on the LCD

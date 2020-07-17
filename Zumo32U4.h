@@ -14,11 +14,10 @@
 #endif
 
 #include <FastGPIO.h>
-#include <LSM303.h>
-#include <L3G.h>
 #include <Zumo32U4Buttons.h>
 #include <Zumo32U4Buzzer.h>
 #include <Zumo32U4Encoders.h>
+#include <Zumo32U4IMU.h>
 #include <Zumo32U4IRPulses.h>
 #include <Zumo32U4LCD.h>
 #include <Zumo32U4LineSensors.h>
@@ -91,20 +90,6 @@ inline uint16_t readBatteryMillivolts()
 }
 
 /**
-
-\class LSM303
-\brief Interfaces with the accelerometer.
-
-For complete documentation of the this class, see
-https://github.com/pololu/lsm303-arduino
-
-
-\class L3G
-\brief Interfaces with the gyro.
-
-For complete documentation of this class, see
-https://github.com/pololu/l3g-arduino
-
 
 \class QTRSensors
 For complete documentation of this class, see
