@@ -38,14 +38,15 @@ public:
 
   void writeReg(uint8_t addr, uint8_t reg, uint8_t value);
 
-  void readAcc(void);
-  void readGyro(void);
-  void readMag(void);
-  void read(void);
+  void readAcc();
+  void readGyro();
+  void readMag();
+  void read();
 
 private:
 
   Zumo32U4IMUType type = Zumo32U4IMUType::Unknown;
 
-  int16_t testReg(uint8_t address, uint8_t reg);
+  int16_t testReg(uint8_t addr, uint8_t reg);
+  void readAxes16Bit(uint8_t addr, uint8_t firstReg, vector<int16_t> & v);
 };

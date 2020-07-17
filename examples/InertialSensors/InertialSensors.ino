@@ -21,8 +21,7 @@ will usually require calibration. */
 #include <Wire.h>
 #include <Zumo32U4.h>
 
-LSM303 compass;
-L3G gyro;
+Zumo32U4IMU imu;
 
 char report[120];
 
@@ -30,43 +29,29 @@ void setup()
 {
   Wire.begin();
 
-  if (!compass.init())
+  if (!imu.init())
   {
     // Failed to detect the compass.
     ledRed(1);
     while(1)
     {
-      Serial.println(F("Failed to detect the compass."));
+      Serial.println(F("Failed to initialize IMU sensors."));
       delay(100);
     }
   }
 
-  compass.enableDefault();
-
-  if (!gyro.init())
-  {
-    // Failed to detect the gyro.
-    ledRed(1);
-    while(1)
-    {
-      Serial.println(F("Failed to detect gyro."));
-      delay(100);
-    }
-  }
-
-  gyro.enableDefault();
+  imu.enableDefault();
 }
 
 void loop()
 {
-  compass.read();
-  gyro.read();
+  imu.read();
 
   snprintf_P(report, sizeof(report),
     PSTR("A: %6d %6d %6d    M: %6d %6d %6d    G: %6d %6d %6d"),
-    compass.a.x, compass.a.y, compass.a.z,
-    compass.m.x, compass.m.y, compass.m.z,
-    gyro.g.x, gyro.g.y, gyro.g.z);
+    imu.a.x, imu.a.y, imu.a.z,
+    imu.m.x, imu.m.y, imu.m.z,
+    imu.g.x, imu.g.y, imu.g.z);
   Serial.println(report);
 
   delay(100);
