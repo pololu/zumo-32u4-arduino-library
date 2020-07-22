@@ -99,9 +99,9 @@ void Zumo32U4IMU::enableDefault()
     // FS = 00 (+/- 245 dps full scale)
     writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL4, 0x00);
 
-    // 0x6F = 0b01101111
+    // 0x7F = 0b01111111
     // DR = 01 (189.4 Hz ODR); BW = 11 (70 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
-    writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL1, 0x6F);
+    writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL1, 0x7F);
 
     break;
 

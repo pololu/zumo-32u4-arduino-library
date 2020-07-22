@@ -18,8 +18,7 @@ Zumo32U4ButtonB buttonB;
 Zumo32U4ButtonC buttonC;
 Zumo32U4LineSensors lineSensors;
 Zumo32U4ProximitySensors proxSensors;
-LSM303 compass;
-L3G gyro;
+Zumo32U4IMU imu;
 Zumo32U4Motors motors;
 Zumo32U4Encoders encoders;
 
@@ -362,10 +361,8 @@ void proxSensorDemo()
 void initInertialSensors()
 {
   Wire.begin();
-  compass.init();
-  compass.enableDefault();
-  gyro.init();
-  gyro.enableDefault();
+  imu.init();
+  imu.enableDefault();
 }
 
 // Given 3 readings for axes x, y, and z, prints the sign
@@ -415,13 +412,12 @@ void inertialDemo()
 
   while (buttonMonitor() != 'B')
   {
-    compass.read();
-    gyro.read();
+    imu.read();
 
     lcd.gotoXY(6, 0);
-    printLargestAxis(gyro.g.x, gyro.g.y, gyro.g.z, 2000);
+    printLargestAxis(imu.g.x, imu.g.y, imu.g.z, 2000);
     lcd.gotoXY(6, 1);
-    printLargestAxis(compass.a.x, compass.a.y, compass.a.z, 200);
+    printLargestAxis(imu.a.x, imu.a.y, imu.a.z, 200);
   }
 }
 

@@ -45,7 +45,7 @@ void setup()
 
 void loop()
 {
-  // Read the acceleration from the LSM303.
+  // Read the accelerometer.
   // A value of 16384 corresponds to approximately 1 g.
   imu.readAcc();
   int16_t x = imu.a.x;
