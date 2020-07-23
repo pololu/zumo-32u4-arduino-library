@@ -65,8 +65,6 @@ void turnSensorSetup()
     break;
   }
 
-
-
   lcd.clear();
   lcd.print(F("Gyro cal"));
 

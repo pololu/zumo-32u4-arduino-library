@@ -42,17 +42,28 @@ that. */
 void turnSensorSetup()
 {
   Wire.begin();
-  gyro.init();
+  imu.init();
 
-  // 800 Hz output data rate,
-  // low-pass filter cutoff 100 Hz
-  gyro.writeReg(L3G::CTRL1, 0b11111111);
+  switch (imu.getType())
+  {
+  case Zumo32U4IMUType::LSM303D_L3GD20H:
 
-  // 2000 dps full scale
-  gyro.writeReg(L3G::CTRL4, 0b00100000);
+    // 800 Hz output data rate,
+    // low-pass filter cutoff 100 Hz
+    imu.writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL1, 0b11111111);
 
-  // High-pass filter disabled
-  gyro.writeReg(L3G::CTRL5, 0b00000000);
+    // 2000 dps full scale
+    imu.writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL4, 0b00100000);
+
+    break;
+
+  case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
+
+    // 833 Hz output data rate, 2000 dps full scale
+    imu.writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL2_G, 0b01111100);
+
+    break;
+  }
 
   lcd.clear();
   lcd.print(F("Gyro cal"));
@@ -68,11 +79,11 @@ void turnSensorSetup()
   for (uint16_t i = 0; i < 1024; i++)
   {
     // Wait for new data to be available, then read it.
-    while(!gyro.readReg(L3G::STATUS_REG) & 0x08);
-    gyro.read();
+    while(!imu.gyroDataReady()) {}
+    imu.readGyro();
 
     // Add the Z axis reading to the total.
-    total += gyro.g.z;
+    total += imu.g.z;
   }
   ledYellow(0);
   gyroOffset = total / 1024;
@@ -104,8 +115,8 @@ void turnSensorReset()
 void turnSensorUpdate()
 {
   // Read the measurements from the gyro.
-  gyro.read();
-  turnRate = gyro.g.z - gyroOffset;
+  imu.readGyro();
+  turnRate = imu.g.z - gyroOffset;
 
   // Figure out how much time has passed since the last update (dt)
   uint16_t m = micros();

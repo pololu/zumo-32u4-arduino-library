@@ -64,7 +64,7 @@ void driveToIntersectionCenter(bool * foundLeft, bool * foundStraight, bool * fo
 void gridMovementSetup();
 
 // These must be defined by the sketch:
-extern L3G gyro;
+extern Zumo32U4IMU imu;
 extern Zumo32U4ButtonA buttonA;
 extern Zumo32U4Motors motors;
 extern Zumo32U4LCD lcd;

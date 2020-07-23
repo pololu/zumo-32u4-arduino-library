@@ -56,7 +56,7 @@ Zumo32U4Buzzer buzzer;
 Zumo32U4ButtonA buttonA;
 Zumo32U4Motors motors;
 Zumo32U4LineSensors lineSensors;
-L3G gyro;
+Zumo32U4IMU imu;
 
 // The path variable will store the path that the robot has
 // taken.  It is stored as an array of characters, each of which
