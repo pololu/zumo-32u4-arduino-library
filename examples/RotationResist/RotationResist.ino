@@ -31,7 +31,7 @@ const int16_t maxSpeed = 400;
 Zumo32U4LCD lcd;
 Zumo32U4ButtonA buttonA;
 Zumo32U4Motors motors;
-L3G gyro;
+Zumo32U4IMU imu;
 
 void setup()
 {
