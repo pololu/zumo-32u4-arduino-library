@@ -26,9 +26,7 @@ Zumo32U4ButtonB buttonB;
 Zumo32U4ButtonC buttonC;
 Zumo32U4Motors motors;
 Zumo32U4Buzzer buzzer;
-
-L3G gyro;
-LSM303 compass;
+Zumo32U4IMU imu;
 
 // This is the average reading obtained from the gyro's Y axis
 // during calibration.
@@ -50,27 +48,36 @@ void setup()
 {
   Wire.begin();
 
-  // Set up the L3GD20H gyro.
-  gyro.init();
+  // Set up the inertial sensors.
+  imu.init();
+  imu.enableDefault();
 
-  // 800 Hz output data rate,
-  // low-pass filter cutoff 100 Hz.
-  gyro.writeReg(L3G::CTRL1, 0b11111111);
+  switch (imu.getType())
+  {
+  case Zumo32U4IMUType::LSM303D_L3GD20H:
 
-  // 2000 dps full scale.
-  gyro.writeReg(L3G::CTRL4, 0b00100000);
+    // gyro: 800 Hz output data rate,
+    // low-pass filter cutoff 100 Hz
+    imu.writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL1, 0b11111111);
 
-  // High-pass filter disabled.
-  gyro.writeReg(L3G::CTRL5, 0b00000000);
+    // gyro: 2000 dps full scale
+    imu.writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL4, 0b00100000);
 
-  // Set up the LSM303D accelerometer.
-  compass.init();
+    // accelerometer: 8 g full scale
+    imu.writeReg(LSM303D_ADDR, LSM303D_REG_CTRL2, 0b00011000);
 
-  // 50 Hz output data rate
-  compass.writeReg(LSM303::CTRL1, 0x57);
+    break;
 
-  // 8 g full-scale
-  compass.writeReg(LSM303::CTRL2, 0x18);
+  case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
+
+    // gyro: 833 Hz output data rate, 2000 dps full scale
+    imu.writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL2_G, 0b01111100);
+
+    // accelerometer: 52 Hz output data rate, 8 g full scale
+    imu.writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL1_XL, 0b00111100);
+
+    break;
+  }
 
   lcd.clear();
   lcd.print(F("Gyro cal"));
@@ -83,11 +90,11 @@ void setup()
   for (uint16_t i = 0; i < 1024; i++)
   {
     // Wait for new data to be available, then read it.
-    while(!gyro.readReg(L3G::STATUS_REG) & 0x08);
-    gyro.read();
+    while(!imu.gyroDataReady()) {}
+    imu.readGyro();
 
     // Add the Y axis reading to the total.
-    gyroOffsetY += gyro.g.y;
+    gyroOffsetY += imu.g.y;
   }
   gyroOffsetY /= 1024;
 
@@ -152,31 +159,31 @@ void updateAngleGyro()
   uint16_t dt = m - lastUpdate;
   lastUpdate = m;
 
-  gyro.read();
+  imu.readGyro();
 
   // Calculate how much the angle has changed, in degrees, and
   // add it to our estimation of the current angle.  The gyro's
   // sensitivity is 0.07 dps per digit.
-  angle += ((float)gyro.g.y - gyroOffsetY) * 70 * dt / 1000000000;
+  angle += ((float)imu.g.y - gyroOffsetY) * 70 * dt / 1000000000;
 }
 
 // Reads the accelerometer and uses it to adjust the angle
 // estimation.
 void correctAngleAccel()
 {
-  compass.read();
+  imu.readAcc();
 
   // Calculate the angle according to the accelerometer.
-  aAngle = -atan2(compass.a.z, -compass.a.x) * 180 / M_PI;
+  aAngle = -atan2(imu.a.z, -imu.a.x) * 180 / M_PI;
 
   // Calculate the magnitude of the measured acceleration vector,
   // in units of g.
-  LSM303::vector<float> const aInG = {
-    (float)compass.a.x / 4096,
-    (float)compass.a.y / 4096,
-    (float)compass.a.z / 4096}
+  Zumo32U4IMU::vector<float> const aInG = {
+    (float)imu.a.x / 4096,
+    (float)imu.a.y / 4096,
+    (float)imu.a.z / 4096}
   ;
-  float mag = sqrt(LSM303::vector_dot(&aInG, &aInG));
+  float mag = sqrt(vector_dot(&aInG, &aInG));
 
   // Calculate how much weight we should give to the
   // accelerometer reading.  When the magnitude is not close to
@@ -225,5 +232,7 @@ void setMotors()
   motors.setSpeeds(speed, speed);
 }
 
-
-
+template <typename Ta, typename Tb> float vector_dot(const Zumo32U4IMU::vector<Ta> *a, const Zumo32U4IMU::vector<Tb> *b)
+{
+  return (a->x * b->x) + (a->y * b->y) + (a->z * b->z);
+}
