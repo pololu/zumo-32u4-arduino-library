@@ -36,13 +36,13 @@ void Zumo32U4IMU::enableDefault()
 
     // Accelerometer
 
-    // 0x00 = 0b00000000
-    // AFS = 0 (+/- 2 g full scale)
-    writeReg(LSM303D_ADDR, LSM303D_REG_CTRL2, 0x00);
-
     // 0x57 = 0b01010111
     // AODR = 0101 (50 Hz ODR); AZEN = AYEN = AXEN = 1 (all axes enabled)
     writeReg(LSM303D_ADDR, LSM303D_REG_CTRL1, 0x57);
+
+    // 0x00 = 0b00000000
+    // AFS = 0 (+/- 2 g full scale)
+    writeReg(LSM303D_ADDR, LSM303D_REG_CTRL2, 0x00);
 
     // Magnetometer
 
@@ -60,13 +60,13 @@ void Zumo32U4IMU::enableDefault()
 
     // Gyro
 
-    // 0x00 = 0b00000000
-    // FS = 00 (+/- 245 dps full scale)
-    writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL4, 0x00);
-
     // 0x7F = 0b01111111
     // DR = 01 (189.4 Hz ODR); BW = 11 (70 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
     writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL1, 0x7F);
+
+    // 0x00 = 0b00000000
+    // FS = 00 (+/- 245 dps full scale)
+    writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL4, 0x00);
 
     break;
 
@@ -75,16 +75,16 @@ void Zumo32U4IMU::enableDefault()
     // Accelerometer
 
     // 0x30 = 0b00110000
-    // ODR = 0011 (52 Hz (high performance)); FS_XL = 00 (+/-2 g full scale)
+    // ODR = 0011 (52 Hz (high performance)); FS_XL = 00 (+/- 2 g full scale)
     writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL1_XL, 0x30);
 
     // Gyro
 
     // 0x50 = 0b01010000
-    // ODR = 0101 (208 Hz (high performance)); FS_G = 00 (245 dps)
+    // ODR = 0101 (208 Hz (high performance)); FS_G = 00 (+/- 245 dps full scale)
     writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL2_G, 0x50);
 
-    // Accelerometer+gyro
+    // Accelerometer + Gyro
 
     // 0x04 = 0b00000100
     // IF_INC = 1 (automatically increment register address)
@@ -107,6 +107,104 @@ void Zumo32U4IMU::enableDefault()
     // 0x0C = 0b00001100
     // OMZ = 11 (ultra-high-performance mode for Z)
     writeReg(LIS3MDL_ADDR, LIS3MDL_REG_CTRL_REG4, 0x0C);
+
+    break;
+  }
+}
+
+void Zumo32U4IMU::configureForBalancing()
+{
+  switch (type)
+  {
+  case Zumo32U4IMUType::LSM303D_L3GD20H:
+
+    // Accelerometer
+
+    // 0x18 = 0b00011000
+    // AFS = 0 (+/- 2 g full scale)
+    writeReg(LSM303D_ADDR, LSM303D_REG_CTRL2, 0x18);
+
+    // Gyro
+
+    // 0xFF = 0b11111111
+    // DR = 11 (757.6 Hz ODR); BW = 11 (100 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
+    writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL1, 0xFF);
+
+    // 0x20 = 0b00100000
+    // FS = 10 (+/- 2000 dps full scale)
+    writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL4, 0x20);
+
+    break;
+
+  case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
+
+    // Accelerometer
+
+    // 0x3C = 0b00111100
+    // ODR = 0011 (52 Hz (high performance)); FS_XL = 11 (+/- 8 g full scale)
+    writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL1_XL, 0x3C);
+
+    // Gyro
+
+    // 0x7C = 0b01111100
+    // ODR = 0111 (833 Hz (high performance)); FS_G = 11 (+/- 2000 dps full scale)
+    writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL2_G, 0x7C);
+
+    break;
+  }
+}
+
+void Zumo32U4IMU::configureForTurnSensing()
+{
+  switch (type)
+  {
+  case Zumo32U4IMUType::LSM303D_L3GD20H:
+
+    // Gyro
+
+    // 0xFF = 0b11111111
+    // DR = 11 (757.6 Hz ODR); BW = 11 (100 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
+    writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL1, 0xFF);
+
+    // 0x20 = 0b00100000
+    // FS = 10 (+/- 2000 dps full scale)
+    writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL4, 0x20);
+
+    break;
+
+  case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
+
+    // Gyro
+
+    // 0x7C = 0b01111100
+    // ODR = 0111 (833 Hz (high performance)); FS_G = 11 (+/- 2000 dps full scale)
+    writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL2_G, 0x7C);
+
+    break;
+  }
+}
+
+void Zumo32U4IMU::configureForFaceUphill()
+{
+  switch (type)
+  {
+  case Zumo32U4IMUType::LSM303D_L3GD20H:
+
+    // Accelerometer
+
+    // 0x37 = 0b00110111
+    // AODR = 0011 (12.5 Hz ODR); AZEN = AYEN = AXEN = 1 (all axes enabled)
+    writeReg(LSM303D_ADDR, LSM303D_REG_CTRL1, 0x37);
+
+    break;
+
+  case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
+
+    // Accelerometer
+
+    // 0x10 = 0b00010000
+    // ODR = 0001 (13 Hz (high performance)); FS_XL = 00 (+/- 2 g full scale)
+    writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL1_XL, 0x10);
 
     break;
   }
@@ -192,7 +290,16 @@ void Zumo32U4IMU::read()
 
 bool Zumo32U4IMU::accDataReady()
 {
+  switch (type)
+  {
+  case Zumo32U4IMUType::LSM303D_L3GD20H:
+    return readReg(LSM303D_ADDR, LSM303D_REG_STATUS_A) & 0x08;
+    break;
 
+  case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
+    return readReg(LSM6DS33_ADDR, LSM6DS33_REG_STATUS_REG) & 0x01;
+    break;
+  }
 }
 
 bool Zumo32U4IMU::gyroDataReady()
@@ -204,14 +311,23 @@ bool Zumo32U4IMU::gyroDataReady()
     break;
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
-    return readReg(LSM6DS33_ADDR, LSM6DS33_REG_STATUS) & 0x02;
+    return readReg(LSM6DS33_ADDR, LSM6DS33_REG_STATUS_REG) & 0x02;
     break;
   }
 }
 
 bool Zumo32U4IMU::magDataReady()
 {
+  switch (type)
+  {
+  case Zumo32U4IMUType::LSM303D_L3GD20H:
+    return readReg(LSM303D_ADDR, LSM303D_REG_STATUS_M) & 0x08;
+    break;
 
+  case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
+    return readReg(LIS3MDL_ADDR, LIS3MDL_REG_STATUS_REG) & 0x08;
+    break;
+  }
 }
 
 int16_t Zumo32U4IMU::testReg(uint8_t addr, uint8_t reg)

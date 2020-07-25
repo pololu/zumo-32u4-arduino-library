@@ -36,6 +36,7 @@ void setup()
   Wire.begin();
   imu.init();
   imu.enableDefault();
+  imu.configureForFaceUphill();
 
   lcd.clear();
   lcd.print(F("Press A"));

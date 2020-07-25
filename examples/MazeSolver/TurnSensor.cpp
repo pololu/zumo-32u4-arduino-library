@@ -43,27 +43,8 @@ void turnSensorSetup()
 {
   Wire.begin();
   imu.init();
-
-  switch (imu.getType())
-  {
-  case Zumo32U4IMUType::LSM303D_L3GD20H:
-
-    // 800 Hz output data rate,
-    // low-pass filter cutoff 100 Hz
-    imu.writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL1, 0b11111111);
-
-    // 2000 dps full scale
-    imu.writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL4, 0b00100000);
-
-    break;
-
-  case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
-
-    // 833 Hz output data rate, 2000 dps full scale
-    imu.writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL2_G, 0b01111100);
-
-    break;
-  }
+  imu.enableDefault();
+  imu.configureForTurnSensing();
 
   lcd.clear();
   lcd.print(F("Gyro cal"));

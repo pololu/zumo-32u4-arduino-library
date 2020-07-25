@@ -51,33 +51,7 @@ void setup()
   // Set up the inertial sensors.
   imu.init();
   imu.enableDefault();
-
-  switch (imu.getType())
-  {
-  case Zumo32U4IMUType::LSM303D_L3GD20H:
-
-    // gyro: 800 Hz output data rate,
-    // low-pass filter cutoff 100 Hz
-    imu.writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL1, 0b11111111);
-
-    // gyro: 2000 dps full scale
-    imu.writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL4, 0b00100000);
-
-    // accelerometer: 8 g full scale
-    imu.writeReg(LSM303D_ADDR, LSM303D_REG_CTRL2, 0b00011000);
-
-    break;
-
-  case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
-
-    // gyro: 833 Hz output data rate, 2000 dps full scale
-    imu.writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL2_G, 0b01111100);
-
-    // accelerometer: 52 Hz output data rate, 8 g full scale
-    imu.writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL1_XL, 0b00111100);
-
-    break;
-  }
+  imu.configureForBalancing();
 
   lcd.clear();
   lcd.print(F("Gyro cal"));
