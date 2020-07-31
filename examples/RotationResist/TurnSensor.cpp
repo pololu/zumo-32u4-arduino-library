@@ -44,7 +44,7 @@ void turnSensorSetup()
   Wire.begin();
   imu.init();
   imu.enableDefault();
-  imu.configureForBalancing();
+  imu.configureForTurnSensing();
 
   lcd.clear();
   lcd.print(F("Gyro cal"));
