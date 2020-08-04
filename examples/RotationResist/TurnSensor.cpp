@@ -1,5 +1,5 @@
 /* Turnsensor.h and TurnSensor.cpp provide functions for
-configuring the L3GD20H gyro, calibrating it, and using it to
+configuring the Zumo 32U4's gyro, calibrating it, and using it to
 measure how much the robot has turned about its Z axis. */
 
 #include <Wire.h>
@@ -36,7 +36,7 @@ gyro.  It uses the LCD, yellow LED, and button A.  While the LCD
 is displaying "Gyro cal", you should be careful to hold the robot
 still.
 
-The digital zero-rate level of the L3GD20H gyro can be as high as
+The digital zero-rate level of the gyro can be as high as
 25 degrees per second, and this calibration helps us correct for
 that. */
 void turnSensorSetup()

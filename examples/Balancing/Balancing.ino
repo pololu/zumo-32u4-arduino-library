@@ -1,5 +1,5 @@
-/* This example shows how to use the Zumo 32U4's LSM303D
-accelerometer and L3GD20H gyro to balance on its front end.
+/* This example shows how to use the Zumo 32U4's accelerometer
+and gyro to balance on its front end.
 
 Please note that the balancing algorithm in this code is not
 perfect: the robot tends to drift away from its starting position
