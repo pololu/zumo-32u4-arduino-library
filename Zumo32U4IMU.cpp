@@ -39,36 +39,41 @@ void Zumo32U4IMU::enableDefault()
     // 0x57 = 0b01010111
     // AODR = 0101 (50 Hz ODR); AZEN = AYEN = AXEN = 1 (all axes enabled)
     writeReg(LSM303D_ADDR, LSM303D_REG_CTRL1, 0x57);
+    if (lastError) { return; }
 
     // 0x00 = 0b00000000
     // AFS = 0 (+/- 2 g full scale)
     writeReg(LSM303D_ADDR, LSM303D_REG_CTRL2, 0x00);
+    if (lastError) { return; }
 
     // Magnetometer
 
     // 0x64 = 0b01100100
     // M_RES = 11 (high resolution mode); M_ODR = 001 (6.25 Hz ODR)
     writeReg(LSM303D_ADDR, LSM303D_REG_CTRL5, 0x64);
+    if (lastError) { return; }
 
     // 0x20 = 0b00100000
     // MFS = 01 (+/- 4 gauss full scale)
     writeReg(LSM303D_ADDR, LSM303D_REG_CTRL6, 0x20);
+    if (lastError) { return; }
 
     // 0x00 = 0b00000000
     // MD = 00 (continuous-conversion mode)
     writeReg(LSM303D_ADDR, LSM303D_REG_CTRL7, 0x00);
+    if (lastError) { return; }
 
     // Gyro
 
     // 0x7F = 0b01111111
     // DR = 01 (189.4 Hz ODR); BW = 11 (70 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
     writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL1, 0x7F);
+    if (lastError) { return; }
 
     // 0x00 = 0b00000000
     // FS = 00 (+/- 245 dps full scale)
     writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL4, 0x00);
-
-    break;
+    return;
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
 
@@ -77,38 +82,43 @@ void Zumo32U4IMU::enableDefault()
     // 0x30 = 0b00110000
     // ODR = 0011 (52 Hz (high performance)); FS_XL = 00 (+/- 2 g full scale)
     writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL1_XL, 0x30);
+    if (lastError) { return; }
 
     // Gyro
 
     // 0x50 = 0b01010000
     // ODR = 0101 (208 Hz (high performance)); FS_G = 00 (+/- 245 dps full scale)
     writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL2_G, 0x50);
+    if (lastError) { return; }
 
     // Accelerometer + Gyro
 
     // 0x04 = 0b00000100
     // IF_INC = 1 (automatically increment register address)
     writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL3_C, 0x04);
+    if (lastError) { return; }
 
     // Magnetometer
 
     // 0x70 = 0b01110000
     // OM = 11 (ultra-high-performance mode for X and Y); DO = 100 (10 Hz ODR)
     writeReg(LIS3MDL_ADDR, LIS3MDL_REG_CTRL_REG1, 0x70);
+    if (lastError) { return; }
 
     // 0x00 = 0b00000000
     // FS = 00 (+/- 4 gauss full scale)
     writeReg(LIS3MDL_ADDR, LIS3MDL_REG_CTRL_REG2, 0x00);
+    if (lastError) { return; }
 
     // 0x00 = 0b00000000
     // MD = 00 (continuous-conversion mode)
     writeReg(LIS3MDL_ADDR, LIS3MDL_REG_CTRL_REG3, 0x00);
+    if (lastError) { return; }
 
     // 0x0C = 0b00001100
     // OMZ = 11 (ultra-high-performance mode for Z)
     writeReg(LIS3MDL_ADDR, LIS3MDL_REG_CTRL_REG4, 0x0C);
-
-    break;
+    return;
   }
 }
 
@@ -123,18 +133,19 @@ void Zumo32U4IMU::configureForBalancing()
     // 0x18 = 0b00011000
     // AFS = 0 (+/- 2 g full scale)
     writeReg(LSM303D_ADDR, LSM303D_REG_CTRL2, 0x18);
+    if (lastError) { return; }
 
     // Gyro
 
     // 0xFF = 0b11111111
     // DR = 11 (757.6 Hz ODR); BW = 11 (100 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
     writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL1, 0xFF);
+    if (lastError) { return; }
 
     // 0x20 = 0b00100000
     // FS = 10 (+/- 2000 dps full scale)
     writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL4, 0x20);
-
-    break;
+    return;
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
 
@@ -143,14 +154,14 @@ void Zumo32U4IMU::configureForBalancing()
     // 0x3C = 0b00111100
     // ODR = 0011 (52 Hz (high performance)); FS_XL = 11 (+/- 8 g full scale)
     writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL1_XL, 0x3C);
+    if (lastError) { return; }
 
     // Gyro
 
     // 0x7C = 0b01111100
     // ODR = 0111 (833 Hz (high performance)); FS_G = 11 (+/- 2000 dps full scale)
     writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL2_G, 0x7C);
-
-    break;
+    return;
   }
 }
 
@@ -165,12 +176,12 @@ void Zumo32U4IMU::configureForTurnSensing()
     // 0xFF = 0b11111111
     // DR = 11 (757.6 Hz ODR); BW = 11 (100 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
     writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL1, 0xFF);
+    if (lastError) { return; }
 
     // 0x20 = 0b00100000
     // FS = 10 (+/- 2000 dps full scale)
     writeReg(L3GD20H_ADDR, L3GD20H_REG_CTRL4, 0x20);
-
-    break;
+    return;
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
 
@@ -179,8 +190,7 @@ void Zumo32U4IMU::configureForTurnSensing()
     // 0x7C = 0b01111100
     // ODR = 0111 (833 Hz (high performance)); FS_G = 11 (+/- 2000 dps full scale)
     writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL2_G, 0x7C);
-
-    break;
+    return;
   }
 }
 
@@ -195,8 +205,7 @@ void Zumo32U4IMU::configureForFaceUphill()
     // 0x37 = 0b00110111
     // AODR = 0011 (12.5 Hz ODR); AZEN = AYEN = AXEN = 1 (all axes enabled)
     writeReg(LSM303D_ADDR, LSM303D_REG_CTRL1, 0x37);
-
-    break;
+    return;
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
 
@@ -205,8 +214,7 @@ void Zumo32U4IMU::configureForFaceUphill()
     // 0x10 = 0b00010000
     // ODR = 0001 (13 Hz (high performance)); FS_XL = 00 (+/- 2 g full scale)
     writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL1_XL, 0x10);
-
-    break;
+    return;
   }
 }
 
@@ -215,16 +223,22 @@ void Zumo32U4IMU::writeReg(uint8_t addr, uint8_t reg, uint8_t value)
   Wire.beginTransmission(addr);
   Wire.write(reg);
   Wire.write(value);
-  last_status = Wire.endTransmission();
+  lastError = Wire.endTransmission();
 }
 
 uint8_t Zumo32U4IMU::readReg(uint8_t addr, uint8_t reg)
 {
   Wire.beginTransmission(addr);
   Wire.write(reg);
-  last_status = Wire.endTransmission();
+  lastError = Wire.endTransmission();
+  if (lastError) { return 0; }
 
-  Wire.requestFrom(addr, (uint8_t)1);
+  uint8_t byteCount = Wire.requestFrom(addr, (uint8_t)1);
+  if (byteCount != 1)
+  {
+    lastError = 50;
+    return 0;
+  }
   return Wire.read();
 }
 
@@ -236,12 +250,12 @@ void Zumo32U4IMU::readAcc(void)
   case Zumo32U4IMUType::LSM303D_L3GD20H:
     // set MSB of register address for auto-increment
     readAxes16Bit(LSM303D_ADDR, LSM303D_REG_OUT_X_L_A | (1 << 7), a);
-    break;
+    return;
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
     // assumes register address auto-increment is enabled (IF_INC in CTRL3_C)
     readAxes16Bit(LSM6DS33_ADDR, LSM6DS33_REG_OUTX_L_XL, a);
-    break;
+    return;
   }
 }
 
@@ -253,12 +267,12 @@ void Zumo32U4IMU::readGyro()
   case Zumo32U4IMUType::LSM303D_L3GD20H:
     // set MSB of register address for auto-increment
     readAxes16Bit(L3GD20H_ADDR, L3GD20H_REG_OUT_X_L | (1 << 7), g);
-    break;
+    return;
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
     // assumes register address auto-increment is enabled (IF_INC in CTRL3_C)
     readAxes16Bit(LSM6DS33_ADDR, LSM6DS33_REG_OUTX_L_G, g);
-    break;
+    return;
   }
 }
 
@@ -270,12 +284,12 @@ void Zumo32U4IMU::readMag()
   case Zumo32U4IMUType::LSM303D_L3GD20H:
     // set MSB of register address for auto-increment
     readAxes16Bit(LSM303D_ADDR, LSM303D_REG_OUT_X_L_M | (1 << 7), m);
-    break;
+    return;
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
     // set MSB of register address for auto-increment
     readAxes16Bit(LIS3MDL_ADDR, LIS3MDL_REG_OUT_X_L | (1 << 7), m);
-    break;
+    return;
   }
 }
 
@@ -284,7 +298,9 @@ void Zumo32U4IMU::readMag()
 void Zumo32U4IMU::read()
 {
   readAcc();
+  if (lastError) { return; }
   readGyro();
+  if (lastError) { return; }
   readMag();
 }
 
@@ -294,11 +310,9 @@ bool Zumo32U4IMU::accDataReady()
   {
   case Zumo32U4IMUType::LSM303D_L3GD20H:
     return readReg(LSM303D_ADDR, LSM303D_REG_STATUS_A) & 0x08;
-    break;
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
     return readReg(LSM6DS33_ADDR, LSM6DS33_REG_STATUS_REG) & 0x01;
-    break;
   }
 }
 
@@ -308,11 +322,9 @@ bool Zumo32U4IMU::gyroDataReady()
   {
   case Zumo32U4IMUType::LSM303D_L3GD20H:
     return readReg(L3GD20H_ADDR, L3GD20H_REG_STATUS) & 0x08;
-    break;
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
     return readReg(LSM6DS33_ADDR, LSM6DS33_REG_STATUS_REG) & 0x02;
-    break;
   }
 }
 
@@ -322,11 +334,9 @@ bool Zumo32U4IMU::magDataReady()
   {
   case Zumo32U4IMUType::LSM303D_L3GD20H:
     return readReg(LSM303D_ADDR, LSM303D_REG_STATUS_M) & 0x08;
-    break;
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
     return readReg(LIS3MDL_ADDR, LIS3MDL_REG_STATUS_REG) & 0x08;
-    break;
   }
 }
 
@@ -339,8 +349,8 @@ int16_t Zumo32U4IMU::testReg(uint8_t addr, uint8_t reg)
     return TEST_REG_ERROR;
   }
 
-  Wire.requestFrom(addr, (uint8_t)1);
-  if (Wire.available())
+  uint8_t byteCount = Wire.requestFrom(addr, (uint8_t)1);
+  if (byteCount != 1)
   {
     return Wire.read();
   }
@@ -354,9 +364,15 @@ void Zumo32U4IMU::readAxes16Bit(uint8_t addr, uint8_t firstReg, vector<int16_t> 
 {
   Wire.beginTransmission(addr);
   Wire.write(firstReg);
-  last_status = Wire.endTransmission();
+  lastError = Wire.endTransmission();
+  if (lastError) { return 0; }
 
-  Wire.requestFrom(addr, (uint8_t)6);
+  uint8_t byteCount = (Wire.requestFrom(addr, (uint8_t)6));
+  if (byteCount != 6)
+  {
+    lastError = 50;
+    return 0;
+  }
   uint8_t xl = Wire.read();
   uint8_t xh = Wire.read();
   uint8_t yl = Wire.read();
