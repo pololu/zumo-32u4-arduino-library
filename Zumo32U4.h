@@ -14,6 +14,8 @@
 #endif
 
 #include <FastGPIO.h>
+#include <LSM303.h>
+#include <L3G.h>
 #include <Zumo32U4Buttons.h>
 #include <Zumo32U4Buzzer.h>
 #include <Zumo32U4Encoders.h>
@@ -90,6 +92,28 @@ inline uint16_t readBatteryMillivolts()
 }
 
 /**
+
+\class LSM303
+\brief Interfaces with the accelerometer (deprecated).
+
+\deprecated 1.2.0 This class is included for backward compatibility with older
+versions of the Zumo32U4 library, but as of version 1.2.0, we recommend using
+the Zumo32U4IMU class to interface with the inertial sensors instead.
+
+For complete documentation of the this class, see
+https://github.com/pololu/lsm303-arduino
+
+
+\class L3G
+\brief Interfaces with the gyro (deprecated).
+
+\deprecated This class is included for backward compatibility with older
+versions of the Zumo32U4 library, but as of version 1.2.0, we recommend using
+the Zumo32U4IMU class to interface with the inertial sensors instead.
+
+For complete documentation of this class, see
+https://github.com/pololu/l3g-arduino
+
 
 \class QTRSensors
 For complete documentation of this class, see
