@@ -352,12 +352,9 @@ int16_t Zumo32U4IMU::testReg(uint8_t addr, uint8_t reg)
   uint8_t byteCount = Wire.requestFrom(addr, (uint8_t)1);
   if (byteCount != 1)
   {
-    return Wire.read();
-  }
-  else
-  {
     return TEST_REG_ERROR;
   }
+  return Wire.read();
 }
 
 void Zumo32U4IMU::readAxes16Bit(uint8_t addr, uint8_t firstReg, vector<int16_t> & v)
