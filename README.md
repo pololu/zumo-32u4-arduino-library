@@ -1,7 +1,7 @@
 # Zumo32U4 library
 
-Version: 1.1.4<br/>
-Release date: 2017-07-17<br/>
+Version: 1.2.0<br/>
+Release date: 2020-08-07<br/>
 [![Build Status](https://travis-ci.org/pololu/zumo-32u4-arduino-library.svg?branch=master)](https://travis-ci.org/pololu/zumo-32u4-arduino-library)<br/>
 [www.pololu.com](http://www.pololu.com/)
 
@@ -9,7 +9,7 @@ Release date: 2017-07-17<br/>
 
 This is a C++ library for the Arduino IDE that helps access the on-board hardware of the Zumo 32U4 robot.
 
-The Zumo 32U4 robot consists of the Zumo chassis, the Zumo 32U4 Main Board, and the Zumo 32U4 Front Sensor Array.  It has an integrated AVR ATmega32U4 microcontroller, motor drivers, encoders, proximity sensors, line sensors, buzzer, four buttons, LCD connector, LSM303D accelerometer, and L3GD20H gyro.  The user's guide for the Zumo 32U4 robot is here:
+The Zumo 32U4 robot consists of the Zumo chassis, the Zumo 32U4 Main Board, and the Zumo 32U4 Front Sensor Array.  It has an integrated AVR ATmega32U4 microcontroller, motor drivers, encoders, proximity sensors, line sensors, inertial sensors, buzzer, four buttons, LCD connector.  The user's guide for the Zumo 32U4 robot is here:
 
 https://www.pololu.com/docs/0J63
 
@@ -39,13 +39,12 @@ Several example sketches are available that show how to use the library.  You ca
 
 The main classes and functions provided by the library are listed below:
 
-* L3G
-* LSM303
 * Zumo32U4ButtonA
 * Zumo32U4ButtonB
 * Zumo32U4ButtonC
 * Zumo32U4Buzzer
 * Zumo32U4Encoders
+* Zumo32U4IMU
 * Zumo32U4IRPulses
 * Zumo32U4LCD
 * Zumo32U4LineSensors
@@ -62,13 +61,13 @@ The main classes and functions provided by the library are listed below:
 This library also includes copies of several other Arduino libraries inside it which are used to help implement the classes and functions above.
 
 * [FastGPIO](https://github.com/pololu/fastgpio-arduino)
-* [LSM303](https://github.com/pololu/lsm303-arduino)
-* [L3G](https://github.com/pololu/l3g-arduino)
 * [PololuBuzzer](https://github.com/pololu/pololu-buzzer-arduino)
 * [PololuHD44780](https://github.com/pololu/pololu-hd44780-arduino)
 * [Pushbutton](https://github.com/pololu/pushbutton-arduino)
 * [QTRSensors](https://github.com/pololu/qtr-sensors-arduino)
 * [USBPause](https://github.com/pololu/usb-pause-arduino)
+
+Additionally, the [LSM303](https://github.com/pololu/lsm303-arduino) and [L3G](https://github.com/pololu/l3g-arduino) libraries are included for backward compatibility with older versions of the Zumo32U4 library, but we recommend using the Zumo32U4IMU class to interface with the inertial sensors instead.
 
 You can use these libraries in your sketch automatically without any extra installation steps and without needing to add any extra `#include` lines to your sketch.
 
@@ -85,6 +84,7 @@ For complete documentation, see https://pololu.github.io/zumo-32u4-arduino-libra
 
 ## Version history
 
+* 1.2.0 (2020-08-07): Added a Zumo32U4IMU class that abstracts some details of the inertial sensors and supports different IMU types. The examples have been updated to use this class.
 * 1.1.4 (2017-07-17): Fixed a bug that caused errors from the right encoder to be reported as errors from the left encoder.
 * 1.1.3 (2016-10-12): Fixed a bug that caused the buzzer's `isPlaying` method to malfunction sometimes when link time optimization is enabled.  Also incorporated some minor fixes to the QTRSensors and LSM303 libraries.
 * 1.1.2 (2016-03-14): Updated the Demo example so it can compile in Arduino 1.6.7.
