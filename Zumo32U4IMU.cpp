@@ -362,13 +362,13 @@ void Zumo32U4IMU::readAxes16Bit(uint8_t addr, uint8_t firstReg, vector<int16_t> 
   Wire.beginTransmission(addr);
   Wire.write(firstReg);
   lastError = Wire.endTransmission();
-  if (lastError) { return 0; }
+  if (lastError) { return; }
 
   uint8_t byteCount = (Wire.requestFrom(addr, (uint8_t)6));
   if (byteCount != 6)
   {
     lastError = 50;
-    return 0;
+    return;
   }
   uint8_t xl = Wire.read();
   uint8_t xh = Wire.read();
