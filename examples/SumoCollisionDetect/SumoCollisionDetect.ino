@@ -1,5 +1,5 @@
-/* This example uses the accelerometer in the Zumo 32U4's onboard accelerometer to detect
- * contact with an adversary robot in the sumo ring.
+/* This example uses the Zumo 32U4's onboard accelerometer to detect contact with an adversary robot
+ * in the sumo ring.
  *
  * This example extends the BorderDetect example, which makes use of the line sensors on Zumo 32U4
  * Front Sensor Array to detect the border of the sumo ring.  It also illustrates the use of the
