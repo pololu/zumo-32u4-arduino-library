@@ -1,4 +1,4 @@
-https://github.com/pololu/fastgpio-arduino 2.0.0
+https://github.com/pololu/fastgpio-arduino 2.1.0-5-g844bfea
 https://github.com/pololu/usb-pause-arduino 2.0.0
 https://github.com/pololu/pushbutton-arduino 2.0.0
 https://github.com/pololu/pololu-buzzer-arduino 1.0.1
