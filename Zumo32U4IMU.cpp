@@ -314,6 +314,7 @@ bool Zumo32U4IMU::accDataReady()
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
     return readReg(LSM6DS33_ADDR, LSM6DS33_REG_STATUS_REG) & 0x01;
   }
+  return false;
 }
 
 bool Zumo32U4IMU::gyroDataReady()
@@ -326,6 +327,7 @@ bool Zumo32U4IMU::gyroDataReady()
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
     return readReg(LSM6DS33_ADDR, LSM6DS33_REG_STATUS_REG) & 0x02;
   }
+  return false;
 }
 
 bool Zumo32U4IMU::magDataReady()
@@ -338,6 +340,7 @@ bool Zumo32U4IMU::magDataReady()
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
     return readReg(LIS3MDL_ADDR, LIS3MDL_REG_STATUS_REG) & 0x08;
   }
+  return false;
 }
 
 int16_t Zumo32U4IMU::testReg(uint8_t addr, uint8_t reg)
