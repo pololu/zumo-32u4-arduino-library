@@ -141,6 +141,11 @@ void updateAngleGyro()
   angle += ((float)imu.g.y - gyroOffsetY) * 70 * dt / 1000000000;
 }
 
+template <typename Ta, typename Tb> float vector_dot(const Zumo32U4IMU::vector<Ta> *a, const Zumo32U4IMU::vector<Tb> *b)
+{
+  return (a->x * b->x) + (a->y * b->y) + (a->z * b->z);
+}
+
 // Reads the accelerometer and uses it to adjust the angle
 // estimation.
 void correctAngleAccel()
@@ -204,9 +209,4 @@ void setMotors()
     lastError = error;
   }
   motors.setSpeeds(speed, speed);
-}
-
-template <typename Ta, typename Tb> float vector_dot(const Zumo32U4IMU::vector<Ta> *a, const Zumo32U4IMU::vector<Tb> *b)
-{
-  return (a->x * b->x) + (a->y * b->y) + (a->z * b->z);
 }
