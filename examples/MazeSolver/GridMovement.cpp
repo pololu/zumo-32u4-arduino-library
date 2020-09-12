@@ -26,7 +26,7 @@ static void loadCustomCharacters()
 void printBar(uint8_t height)
 {
   if (height > 8) { height = 8; }
-  const char barChars[] = {' ', 0, 1, 2, 3, 4, 5, 6, 255};
+  const char barChars[] = {' ', 0, 1, 2, 3, 4, 5, 6, (char)255};
   lcd.print(barChars[height]);
 }
 
