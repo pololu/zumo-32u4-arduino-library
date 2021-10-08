@@ -51,7 +51,11 @@ the path it previously learned. */
 #include <Zumo32U4.h>
 #include "GridMovement.h"
 
-Zumo32U4LCD lcd;
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
+
 Zumo32U4Buzzer buzzer;
 Zumo32U4ButtonA buttonA;
 Zumo32U4Motors motors;
@@ -160,8 +164,8 @@ void mazeSolve()
     // robot.
     if (pathLength >= sizeof(path))
     {
-      lcd.clear();
-      lcd.print(F("pathfull"));
+      display.clear();
+      display.print(F("pathfull"));
       while(1)
       {
         ledRed(1);
@@ -293,11 +297,11 @@ void displayPath()
   // are normally terminated in C.
   path[pathLength] = 0;
 
-  lcd.clear();
-  lcd.print(path);
+  display.clear();
+  display.print(path);
   if(pathLength > 8)
   {
-    lcd.gotoXY(0, 1);
-    lcd.print(path + 8);
+    display.gotoXY(0, 1);
+    display.print(path + 8);
   }
 }

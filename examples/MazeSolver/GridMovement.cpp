@@ -14,20 +14,20 @@ static void loadCustomCharacters()
   static const char levels[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 63, 63, 63, 63, 63, 63, 63
   };
-  lcd.loadCustomCharacter(levels + 0, 0);  // 1 bar
-  lcd.loadCustomCharacter(levels + 1, 1);  // 2 bars
-  lcd.loadCustomCharacter(levels + 2, 2);  // 3 bars
-  lcd.loadCustomCharacter(levels + 3, 3);  // 4 bars
-  lcd.loadCustomCharacter(levels + 4, 4);  // 5 bars
-  lcd.loadCustomCharacter(levels + 5, 5);  // 6 bars
-  lcd.loadCustomCharacter(levels + 6, 6);  // 7 bars
+  display.loadCustomCharacter(levels + 0, 0);  // 1 bar
+  display.loadCustomCharacter(levels + 1, 1);  // 2 bars
+  display.loadCustomCharacter(levels + 2, 2);  // 3 bars
+  display.loadCustomCharacter(levels + 3, 3);  // 4 bars
+  display.loadCustomCharacter(levels + 4, 4);  // 5 bars
+  display.loadCustomCharacter(levels + 5, 5);  // 6 bars
+  display.loadCustomCharacter(levels + 6, 6);  // 7 bars
 }
 
 void printBar(uint8_t height)
 {
   if (height > 8) { height = 8; }
   const char barChars[] = {' ', 0, 1, 2, 3, 4, 5, 6, (char)255};
-  lcd.print(barChars[height]);
+  display.print(barChars[height]);
 }
 
 // Takes calibrated readings of the lines sensors and stores them
@@ -66,8 +66,8 @@ bool aboveDarkSpot()
 // Returns after the user presses A.
 static void lineSensorSetup()
 {
-  lcd.clear();
-  lcd.print(F("Line cal"));
+  display.clear();
+  display.print(F("Line cal"));
 
   // Delay so the robot does not move while the user is still
   // touching the button.
@@ -108,12 +108,12 @@ static void lineSensorSetup()
 
   // Show the line sensor readings on the LCD until button A is
   // pressed.
-  lcd.clear();
+  display.clear();
   while(!buttonA.getSingleDebouncedPress())
   {
     readSensors();
 
-    lcd.gotoXY(0, 0);
+    display.gotoXY(0, 0);
     for (uint8_t i = 0; i < numSensors; i++)
     {
       uint8_t barHeight = map(lineSensorValues[i], 0, 1000, 0, 8);
@@ -121,7 +121,7 @@ static void lineSensorSetup()
     }
   }
 
-  lcd.clear();
+  display.clear();
 }
 
 // Turns according to the parameter dir, which should be 'L'

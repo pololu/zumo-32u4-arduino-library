@@ -21,7 +21,11 @@ Zumo32U4Buzzer buzzer;
 Zumo32U4LineSensors lineSensors;
 Zumo32U4Motors motors;
 Zumo32U4ButtonA buttonA;
-Zumo32U4LCD lcd;
+
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
 
 int16_t lastError = 0;
 
@@ -35,25 +39,25 @@ void loadCustomCharacters()
   static const char levels[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 63, 63, 63, 63, 63, 63, 63
   };
-  lcd.loadCustomCharacter(levels + 0, 0);  // 1 bar
-  lcd.loadCustomCharacter(levels + 1, 1);  // 2 bars
-  lcd.loadCustomCharacter(levels + 2, 2);  // 3 bars
-  lcd.loadCustomCharacter(levels + 3, 3);  // 4 bars
-  lcd.loadCustomCharacter(levels + 4, 4);  // 5 bars
-  lcd.loadCustomCharacter(levels + 5, 5);  // 6 bars
-  lcd.loadCustomCharacter(levels + 6, 6);  // 7 bars
+  display.loadCustomCharacter(levels + 0, 0);  // 1 bar
+  display.loadCustomCharacter(levels + 1, 1);  // 2 bars
+  display.loadCustomCharacter(levels + 2, 2);  // 3 bars
+  display.loadCustomCharacter(levels + 3, 3);  // 4 bars
+  display.loadCustomCharacter(levels + 4, 4);  // 5 bars
+  display.loadCustomCharacter(levels + 5, 5);  // 6 bars
+  display.loadCustomCharacter(levels + 6, 6);  // 7 bars
 }
 
 void printBar(uint8_t height)
 {
   if (height > 8) { height = 8; }
   const char barChars[] = {' ', 0, 1, 2, 3, 4, 5, 6, (char)255};
-  lcd.print(barChars[height]);
+  display.print(barChars[height]);
 }
 
 void calibrateSensors()
 {
-  lcd.clear();
+  display.clear();
 
   // Wait 1 second and then begin automatic sensor calibration
   // by rotating in place to sweep the sensors over the line
@@ -78,13 +82,13 @@ void calibrateSensors()
 // Returns after the user presses A.
 void showReadings()
 {
-  lcd.clear();
+  display.clear();
 
   while(!buttonA.getSingleDebouncedPress())
   {
     lineSensors.readCalibrated(lineSensorValues);
 
-    lcd.gotoXY(0, 0);
+    display.gotoXY(0, 0);
     for (uint8_t i = 0; i < NUM_SENSORS; i++)
     {
       uint8_t barHeight = map(lineSensorValues[i], 0, 1000, 0, 8);
@@ -107,10 +111,10 @@ void setup()
   buzzer.play(">g32>>c32");
 
   // Wait for button A to be pressed and released.
-  lcd.clear();
-  lcd.print(F("Press A"));
-  lcd.gotoXY(0, 1);
-  lcd.print(F("to calib"));
+  display.clear();
+  display.print(F("Press A"));
+  display.gotoXY(0, 1);
+  display.print(F("to calib"));
   buttonA.waitForButton();
 
   calibrateSensors();
@@ -118,8 +122,8 @@ void setup()
   showReadings();
 
   // Play music and wait for it to finish before we start driving.
-  lcd.clear();
-  lcd.print(F("Go!"));
+  display.clear();
+  display.print(F("Go!"));
   buzzer.play("L16 cdegreg4");
   while(buzzer.isPlaying());
 }

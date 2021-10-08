@@ -9,19 +9,23 @@ interface with a user pushbutton on the Zumo 32U4. */
 Zumo32U4ButtonA buttonA;
 Zumo32U4ButtonB buttonB;
 Zumo32U4ButtonC buttonC;
-Zumo32U4LCD lcd;
+
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
 
 void setup()
 {
-  lcd.clear();
-  lcd.print(F("Press A"));
+  display.clear();
+  display.print(F("Press A"));
 
   /* Method 1: Use the waitForButton() function, which blocks and
    * doesn't return until a button press and release are
    * detected. This function takes care of button debouncing. */
   buttonA.waitForButton();
 
-  lcd.clear();
+  display.clear();
 }
 
 void loop()
@@ -53,8 +57,8 @@ void loop()
     Serial.print(cPressedCount);
     Serial.println(F(" times."));
 
-    lcd.clear();
-    lcd.print(cPressedCount);
+    display.clear();
+    display.print(cPressedCount);
   }
 
   /* If you use non-blocking functions like isPressed() and

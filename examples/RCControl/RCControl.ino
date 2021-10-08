@@ -1,8 +1,8 @@
 /* This example shows how to read RC pulses from pins 0 and 1 and
 use them to control the motors on the Zumo 32U4.
 
-Pins 0 and 1 are LCD control lines, so you cannot use the LCD
-while running this demo. */
+Pins 0 and 1 are display control lines, so you cannot use the
+display while running this demo. */
 
 #include <Wire.h>
 #include <Zumo32U4.h>

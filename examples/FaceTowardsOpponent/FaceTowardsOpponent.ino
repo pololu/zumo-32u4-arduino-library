@@ -7,7 +7,11 @@ and attempts to face towards that object. */
 #include <Wire.h>
 #include <Zumo32U4.h>
 
-Zumo32U4LCD lcd;
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
+
 Zumo32U4Motors motors;
 Zumo32U4ProximitySensors proxSensors;
 Zumo32U4ButtonA buttonA;
@@ -59,10 +63,10 @@ void setup()
   proxSensors.initFrontSensor();
 
   // Wait for the user to press A before driving the motors.
-  lcd.clear();
-  lcd.print(F("Press A"));
+  display.clear();
+  display.print(F("Press A"));
   buttonA.waitForButton();
-  lcd.clear();
+  display.clear();
 }
 
 void turnRight()
@@ -162,14 +166,14 @@ void loop()
     }
   }
 
-  lcd.gotoXY(0, 0);
-  lcd.print(leftValue);
-  lcd.print(' ');
-  lcd.print(rightValue);
-  lcd.gotoXY(0, 1);
-  lcd.print(turningRight ? 'R' : (turningLeft ? 'L' : ' '));
-  lcd.print(' ');
-  lcd.print(turnSpeed);
-  lcd.print(' ');
-  lcd.print(' ');
+  display.gotoXY(0, 0);
+  display.print(leftValue);
+  display.print(' ');
+  display.print(rightValue);
+  display.gotoXY(0, 1);
+  display.print(turningRight ? 'R' : (turningLeft ? 'L' : ' '));
+  display.print(' ');
+  display.print(turnSpeed);
+  display.print(' ');
+  display.print(' ');
 }

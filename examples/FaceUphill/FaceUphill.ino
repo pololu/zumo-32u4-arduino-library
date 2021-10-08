@@ -24,9 +24,13 @@ to 0. */
 
 const int16_t maxSpeed = 150;
 
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
+
 Zumo32U4IMU imu;
 Zumo32U4Motors motors;
-Zumo32U4LCD lcd;
 Zumo32U4ButtonA buttonA;
 Zumo32U4Encoders encoders;
 
@@ -38,10 +42,10 @@ void setup()
   imu.enableDefault();
   imu.configureForFaceUphill();
 
-  lcd.clear();
-  lcd.print(F("Press A"));
+  display.clear();
+  display.print(F("Press A"));
   buttonA.waitForPress();
-  lcd.clear();
+  display.clear();
 }
 
 void loop()
@@ -59,12 +63,12 @@ void loop()
   if ((uint8_t)(millis() - lastDisplayTime) > 150)
   {
     lastDisplayTime = millis();
-    lcd.gotoXY(0, 0);
-    lcd.print(x);
-    lcd.print(F("       "));
-    lcd.gotoXY(0, 1);
-    lcd.print(y);
-    lcd.print(F("       "));
+    display.gotoXY(0, 0);
+    display.print(x);
+    display.print(F("       "));
+    display.gotoXY(0, 1);
+    display.print(y);
+    display.print(F("       "));
   }
 
   // Use the encoders to see how much we should drive forward.

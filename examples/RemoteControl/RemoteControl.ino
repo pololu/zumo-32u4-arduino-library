@@ -51,7 +51,11 @@ bool messageActive = false;
 // timeout defined above.
 uint16_t lastMessageTimeMs = 0;
 
-Zumo32U4LCD lcd;
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
+
 Zumo32U4Motors motors;
 Zumo32U4Buzzer buzzer;
 Zumo32U4ButtonA buttonA;
@@ -62,8 +66,8 @@ void setup()
 {
   decoder.init();
 
-  lcd.clear();
-  lcd.print(F("Waiting"));
+  display.clear();
+  display.print(F("Waiting"));
 }
 
 void loop()
@@ -135,7 +139,7 @@ void processRemoteMessage(const uint8_t * message)
   // byte is usually a command.  The last byte is supposed to be
   // the bitwise inverse of the third byte, and if that is the
   // case, then we don't print it.
-  lcd.clear();
+  display.clear();
   char buffer[9];
   if (message[2] + message[3] == 0xFF)
   {
@@ -147,16 +151,16 @@ void processRemoteMessage(const uint8_t * message)
     sprintf(buffer, "%02X%02X%02X%02X",
       message[0], message[1], message[2], message[3]);
   }
-  lcd.print(buffer);
+  display.print(buffer);
 
   // Go to the next line of the LCD.
-  lcd.gotoXY(0, 1);
+  display.gotoXY(0, 1);
 
   // Make sure the address matches what we expect.
   if (message[0] != remoteAddressByte0 ||
     message[1] != remoteAddressByte1)
   {
-    lcd.print(F("bad addr"));
+    display.print(F("bad addr"));
     return;
   }
 
@@ -164,7 +168,7 @@ void processRemoteMessage(const uint8_t * message)
   // command byte.
   if (message[2] + message[3] != 0xFF)
   {
-    lcd.print(F("bad cmd"));
+    display.print(F("bad cmd"));
     return;
   }
 
@@ -178,94 +182,94 @@ void processRemoteCommand(uint8_t command)
   switch(command)
   {
   case remoteUp:
-    lcd.print(F("up"));
+    display.print(F("up"));
     motors.setSpeeds(400, 400);
     break;
 
   case remoteDown:
-    lcd.print(F("down"));
+    display.print(F("down"));
     motors.setSpeeds(-400, -400);
     break;
 
   case remoteLeft:
-    lcd.print(F("left"));
+    display.print(F("left"));
     motors.setSpeeds(-250, 250);
     break;
 
   case remoteRight:
-    lcd.print(F("right"));
+    display.print(F("right"));
     motors.setSpeeds(250, -250);
     break;
 
   case remoteStopMode:
-    lcd.print(F("stop"));
+    display.print(F("stop"));
     break;
 
   case remoteEnterSave:
-    lcd.print(F("enter"));
+    display.print(F("enter"));
     break;
 
   case remoteVolMinus:
-    lcd.print(F("vol-"));
+    display.print(F("vol-"));
     break;
 
   case remoteVolPlus:
-    lcd.print(F("vol+"));
+    display.print(F("vol+"));
     break;
 
   case remotePlayPause:
-    lcd.print(F("play"));
+    display.print(F("play"));
     break;
 
   case remoteSetup:
-    lcd.print(F("setup"));
+    display.print(F("setup"));
     break;
 
   case remoteBack:
-    lcd.print(F("back"));
+    display.print(F("back"));
     break;
 
   case remote0:
-    lcd.print(F("0"));
+    display.print(F("0"));
     break;
 
   case remote1:
-    lcd.print(F("1"));
+    display.print(F("1"));
     buzzer.playNote(NOTE_C(4), 200, 15);
     break;
 
   case remote2:
-    lcd.print(F("2"));
+    display.print(F("2"));
     buzzer.playNote(NOTE_D(4), 200, 15);
     break;
 
   case remote3:
-    lcd.print(F("3"));
+    display.print(F("3"));
     buzzer.playNote(NOTE_E(4), 200, 15);
     break;
 
   case remote4:
-    lcd.print(F("4"));
+    display.print(F("4"));
     break;
 
   case remote5:
-    lcd.print(F("5"));
+    display.print(F("5"));
     break;
 
   case remote6:
-    lcd.print(F("6"));
+    display.print(F("6"));
     break;
 
   case remote7:
-    lcd.print(F("7"));
+    display.print(F("7"));
     break;
 
   case remote8:
-    lcd.print(F("8"));
+    display.print(F("8"));
     break;
 
   case remote9:
-    lcd.print(F("9"));
+    display.print(F("9"));
     break;
   }
 }

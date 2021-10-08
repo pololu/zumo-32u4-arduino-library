@@ -9,7 +9,11 @@ the serial monitor. */
 #include <Wire.h>
 #include <Zumo32U4.h>
 
-Zumo32U4LCD lcd;
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
+
 Zumo32U4LineSensors lineSensors;
 Zumo32U4ProximitySensors proxSensors;
 
@@ -116,18 +120,18 @@ void calibrateLineSensors()
   // To indicate we are in calibration mode, turn on the yellow LED
   // and print "Line cal" on the LCD.
   ledYellow(1);
-  lcd.clear();
-  lcd.print(F("Line cal"));
+  display.clear();
+  display.print(F("Line cal"));
 
   for (uint16_t i = 0; i < 400; i++)
   {
-    lcd.gotoXY(0, 1);
-    lcd.print(i);
+    display.gotoXY(0, 1);
+    display.print(i);
     lineSensors.calibrate();
   }
 
   ledYellow(0);
-  lcd.clear();
+  display.clear();
 }
 
 void loadCustomCharacters()
@@ -135,20 +139,20 @@ void loadCustomCharacters()
   static const char levels[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 63, 63, 63, 63, 63, 63, 63
   };
-  lcd.loadCustomCharacter(levels + 0, 0);  // 1 bar
-  lcd.loadCustomCharacter(levels + 1, 1);  // 2 bars
-  lcd.loadCustomCharacter(levels + 2, 2);  // 3 bars
-  lcd.loadCustomCharacter(levels + 3, 3);  // 4 bars
-  lcd.loadCustomCharacter(levels + 4, 4);  // 5 bars
-  lcd.loadCustomCharacter(levels + 5, 5);  // 6 bars
-  lcd.loadCustomCharacter(levels + 6, 6);  // 7 bars
+  display.loadCustomCharacter(levels + 0, 0);  // 1 bar
+  display.loadCustomCharacter(levels + 1, 1);  // 2 bars
+  display.loadCustomCharacter(levels + 2, 2);  // 3 bars
+  display.loadCustomCharacter(levels + 3, 3);  // 4 bars
+  display.loadCustomCharacter(levels + 4, 4);  // 5 bars
+  display.loadCustomCharacter(levels + 5, 5);  // 6 bars
+  display.loadCustomCharacter(levels + 6, 6);  // 7 bars
 }
 
 void printBar(uint8_t height)
 {
   if (height > 8) { height = 8; }
   const char barChars[] = {' ', 0, 1, 2, 3, 4, 5, 6, (char)255};
-  lcd.print(barChars[height]);
+  display.print(barChars[height]);
 }
 
 // Prints a bar graph showing all the sensor readings on the LCD.
@@ -156,20 +160,20 @@ void printReadingsToLCD()
 {
   // On the first line of the LCD, display proximity sensor
   // readings.
-  lcd.gotoXY(0, 0);
+  display.gotoXY(0, 0);
   printBar(proxSensors.countsLeftWithLeftLeds());
   printBar(proxSensors.countsLeftWithRightLeds());
-  lcd.print(' ');
+  display.print(' ');
   printBar(proxSensors.countsFrontWithLeftLeds());
   printBar(proxSensors.countsFrontWithRightLeds());
-  lcd.print(' ');
+  display.print(' ');
   printBar(proxSensors.countsRightWithLeftLeds());
   printBar(proxSensors.countsRightWithRightLeds());
 
   // On the second line of the LCD, display line sensor readings.
   // These calibrated sensor readings are between 0 and 1000, so
   // we use the map function to rescale it to 0 through 8.
-  lcd.gotoXY(0, 1);
+  display.gotoXY(0, 1);
   for (uint8_t i = 0; i < 5; i++)
   {
     uint8_t barHeight = map(lineSensorValues[i], 0, 1000, 0, 8);
@@ -178,7 +182,7 @@ void printReadingsToLCD()
 
   // On the last 3 characters of the second line, display basic
   // readings of the sensors taken without sending IR pulses.
-  lcd.gotoXY(5, 1);
+  display.gotoXY(5, 1);
   printBar(proxLeftActive);
   printBar(proxFrontActive);
   printBar(proxRightActive);

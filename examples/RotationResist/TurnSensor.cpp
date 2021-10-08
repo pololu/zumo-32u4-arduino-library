@@ -46,8 +46,8 @@ void turnSensorSetup()
   imu.enableDefault();
   imu.configureForTurnSensing();
 
-  lcd.clear();
-  lcd.print(F("Gyro cal"));
+  display.clear();
+  display.print(F("Gyro cal"));
 
   // Turn on the yellow LED in case the LCD is not available.
   ledYellow(1);
@@ -71,16 +71,16 @@ void turnSensorSetup()
 
   // Display the angle (in degrees from -180 to 180) until the
   // user presses A.
-  lcd.clear();
+  display.clear();
   turnSensorReset();
   while (!buttonA.getSingleDebouncedRelease())
   {
     turnSensorUpdate();
-    lcd.gotoXY(0, 0);
-    lcd.print((((int32_t)turnAngle >> 16) * 360) >> 16);
-    lcd.print(F("   "));
+    display.gotoXY(0, 0);
+    display.print((((int32_t)turnAngle >> 16) * 360) >> 16);
+    display.print(F("   "));
   }
-  lcd.clear();
+  display.clear();
 }
 
 // This should be called to set the starting point for measuring

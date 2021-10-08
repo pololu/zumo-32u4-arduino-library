@@ -20,7 +20,11 @@ with other types of motors. */
 #include <Wire.h>
 #include <Zumo32U4.h>
 
-Zumo32U4LCD lcd;
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
+
 Zumo32U4ButtonA buttonA;
 Zumo32U4ButtonB buttonB;
 Zumo32U4ButtonC buttonC;
@@ -44,6 +48,13 @@ float angle = 0;
 // accelerometer.
 float aAngle = 0;
 
+// This is the angle the robot tries to balance at.  Since the LCD and OLED
+// displays have different weights and cause the Zumo to balance differently,
+// the best target angle will depend on which version of the Zumo 32U4 you have.
+// We suggest starting with a value of 4.0 for the OLED version or 2.0 for the
+// LCD version.
+const float targetAngle = 4.0;
+
 void setup()
 {
   Wire.begin();
@@ -53,8 +64,8 @@ void setup()
   imu.enableDefault();
   imu.configureForBalancing();
 
-  lcd.clear();
-  lcd.print(F("Gyro cal"));
+  display.clear();
+  display.print(F("Gyro cal"));
   ledYellow(1);
 
   // Delay to give the user time to remove their finger.
@@ -72,7 +83,7 @@ void setup()
   }
   gyroOffsetY /= 1024;
 
-  lcd.clear();
+  display.clear();
   ledYellow(0);
 
   // Display the angle until the user presses A.
@@ -115,13 +126,13 @@ void loop()
 
 void printAngles()
 {
-  lcd.gotoXY(0, 0);
-  lcd.print(angle);
-  lcd.print(F("  "));
+  display.gotoXY(0, 0);
+  display.print(angle);
+  display.print(F("  "));
 
-  lcd.gotoXY(0, 1);
-  lcd.print(aAngle);
-  lcd.print("  ");
+  display.gotoXY(0, 1);
+  display.print(aAngle);
+  display.print("  ");
 }
 
 // Reads the gyro and uses it to update the angle estimation.
@@ -182,8 +193,6 @@ void correctAngleAccel()
 // robot's balancing algorithm.
 void setMotors()
 {
-  const float targetAngle = 2.0;
-
   int32_t speed;
   if (abs(angle) > 45)
   {

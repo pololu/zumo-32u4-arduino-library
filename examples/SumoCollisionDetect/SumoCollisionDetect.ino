@@ -3,7 +3,7 @@
  *
  * This example extends the BorderDetect example, which makes use of the line sensors on Zumo 32U4
  * Front Sensor Array to detect the border of the sumo ring.  It also illustrates the use of the
- * motors, pushbuttons, lcd, and buzzer.
+ * motors, pushbuttons, display, and buzzer.
  *
  * In loop(), the program reads the x and y components of acceleration (ignoring z), and detects a
  * contact when the magnitude of the 3-period average of the x-y vector exceeds an empirically
@@ -43,7 +43,10 @@
 
 // #define LOG_SERIAL // write log output to serial port
 
-Zumo32U4LCD lcd;
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
 
 Zumo32U4ButtonA button;
 
@@ -185,13 +188,13 @@ void waitForButtonAndCountDown(bool restarting)
   ledRed(0);
 
   ledYellow(1);
-  lcd.clear();
-  lcd.print(F("Press A"));
+  display.clear();
+  display.print(F("Press A"));
 
   button.waitForButton();
 
   ledYellow(0);
-  lcd.clear();
+  display.clear();
 
   // play audible countdown
   for (int i = 0; i < 3; i++)

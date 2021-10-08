@@ -11,7 +11,7 @@ try rotating the contrast potentiometer. */
 #include <Wire.h>
 #include <Zumo32U4.h>
 
-Zumo32U4LCD lcd;
+Zumo32U4LCD display;
 Zumo32U4Buzzer buzzer;
 Zumo32U4ButtonA buttonA;
 Zumo32U4ButtonB buttonB;
@@ -37,15 +37,15 @@ public:
   {
     this->items = items;
     this->itemCount = itemCount;
-    lcdItemIndex = 0;
+    displayItemIndex = 0;
   }
 
-  void lcdUpdate(uint8_t index)
+  void displayUpdate(uint8_t index)
   {
-    lcd.clear();
-    lcd.print(items[index].name);
-    lcd.gotoXY(0, 1);
-    lcd.print(F("\x7f" "A \xa5" "B C\x7e"));
+    display.clear();
+    display.print(items[index].name);
+    display.gotoXY(0, 1);
+    display.print(F("\x7f" "A \xa5" "B C\x7e"));
   }
 
   void action(uint8_t index)
@@ -57,7 +57,7 @@ public:
   // then runs it, then returns.
   void select()
   {
-    lcdUpdate(lcdItemIndex);
+    displayUpdate(displayItemIndex);
 
     while (1)
     {
@@ -65,33 +65,33 @@ public:
       {
       case 'A':
         // The A button was pressed so decrement the index.
-        if (lcdItemIndex == 0)
+        if (displayItemIndex == 0)
         {
-          lcdItemIndex = itemCount - 1;
+          displayItemIndex = itemCount - 1;
         }
         else
         {
-          lcdItemIndex--;
+          displayItemIndex--;
         }
-        lcdUpdate(lcdItemIndex);
+        displayUpdate(displayItemIndex);
         break;
 
       case 'C':
         // The C button was pressed so increase the index.
-        if (lcdItemIndex >= itemCount - 1)
+        if (displayItemIndex >= itemCount - 1)
         {
-          lcdItemIndex = 0;
+          displayItemIndex = 0;
         }
         else
         {
-          lcdItemIndex++;
+          displayItemIndex++;
         }
-        lcdUpdate(lcdItemIndex);
+        displayUpdate(displayItemIndex);
         break;
 
       case 'B':
         // The B button was pressed so run the item and return.
-        action(lcdItemIndex);
+        action(displayItemIndex);
         return;
       }
     }
@@ -100,7 +100,7 @@ public:
 private:
   Item * items;
   uint8_t itemCount;
-  uint8_t lcdItemIndex;
+  uint8_t displayItemIndex;
 };
 
 
@@ -181,7 +181,7 @@ void loadCustomCharacters()
   // arrow; other characters are loaded by individual demos as
   // needed.
 
-  lcd.loadCustomCharacter(backArrow, 7);
+  display.loadCustomCharacter(backArrow, 7);
 }
 
 // Assigns #0-6 to be bar graph characters.
@@ -190,32 +190,32 @@ void loadCustomCharactersBarGraph()
   static const char levels[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 63, 63, 63, 63, 63, 63, 63
   };
-  lcd.loadCustomCharacter(levels + 0, 0);  // 1 bar
-  lcd.loadCustomCharacter(levels + 1, 1);  // 2 bars
-  lcd.loadCustomCharacter(levels + 2, 2);  // 3 bars
-  lcd.loadCustomCharacter(levels + 3, 3);  // 4 bars
-  lcd.loadCustomCharacter(levels + 4, 4);  // 5 bars
-  lcd.loadCustomCharacter(levels + 5, 5);  // 6 bars
-  lcd.loadCustomCharacter(levels + 6, 6);  // 7 bars
+  display.loadCustomCharacter(levels + 0, 0);  // 1 bar
+  display.loadCustomCharacter(levels + 1, 1);  // 2 bars
+  display.loadCustomCharacter(levels + 2, 2);  // 3 bars
+  display.loadCustomCharacter(levels + 3, 3);  // 4 bars
+  display.loadCustomCharacter(levels + 4, 4);  // 5 bars
+  display.loadCustomCharacter(levels + 5, 5);  // 6 bars
+  display.loadCustomCharacter(levels + 6, 6);  // 7 bars
 }
 
 // Assigns #0-4 to be arrow symbols.
 void loadCustomCharactersMotorDirs()
 {
-  lcd.loadCustomCharacter(forwardArrows, 0);
-  lcd.loadCustomCharacter(reverseArrows, 1);
-  lcd.loadCustomCharacter(forwardArrowsSolid, 2);
-  lcd.loadCustomCharacter(reverseArrowsSolid, 3);
+  display.loadCustomCharacter(forwardArrows, 0);
+  display.loadCustomCharacter(reverseArrows, 1);
+  display.loadCustomCharacter(forwardArrowsSolid, 2);
+  display.loadCustomCharacter(reverseArrowsSolid, 3);
 }
 
 // Clears the LCD and puts [back_arrow]B on the second line
 // to indicate to the user that the B button goes back.
 void displayBackArrow()
 {
-  lcd.clear();
-  lcd.gotoXY(0,1);
-  lcd.print(F("\7B"));
-  lcd.gotoXY(0,0);
+  display.clear();
+  display.gotoXY(0,1);
+  display.print(F("\7B"));
+  display.gotoXY(0,0);
 }
 
 // Blinks all three LEDs in sequence.
@@ -237,8 +237,8 @@ void ledDemo()
       {
       case 0:
         buzzer.play("c32");
-        lcd.gotoXY(0, 0);
-        lcd.print(F("Red   "));
+        display.gotoXY(0, 0);
+        display.print(F("Red   "));
         ledRed(1);
         ledGreen(0);
         ledYellow(0);
@@ -246,8 +246,8 @@ void ledDemo()
 
       case 1:
         buzzer.play("e32");
-        lcd.gotoXY(0, 0);
-        lcd.print(F("Green"));
+        display.gotoXY(0, 0);
+        display.print(F("Green"));
         ledRed(0);
         ledGreen(1);
         ledYellow(0);
@@ -255,8 +255,8 @@ void ledDemo()
 
       case 2:
         buzzer.play("g32");
-        lcd.gotoXY(0, 0);
-        lcd.print(F("Yellow"));
+        display.gotoXY(0, 0);
+        display.print(F("Yellow"));
         ledRed(0);
         ledGreen(0);
         ledYellow(1);
@@ -274,7 +274,7 @@ void printBar(uint8_t height)
 {
   if (height > 8) { height = 8; }
   static const char barChars[] = {' ', 0, 1, 2, 3, 4, 5, 6, (char)255};
-  lcd.print(barChars[height]);
+  display.print(barChars[height]);
 }
 
 // Display line sensor readings. Holding button C turns off
@@ -283,8 +283,8 @@ void lineSensorDemo()
 {
   loadCustomCharactersBarGraph();
   displayBackArrow();
-  lcd.gotoXY(6, 1);
-  lcd.print('C');
+  display.gotoXY(6, 1);
+  display.print('C');
 
   uint16_t lineSensorValues[3];
   char c;
@@ -302,24 +302,24 @@ void lineSensorDemo()
       lineSensors.read(lineSensorValues, QTR_EMITTERS_ON);
     }
 
-    lcd.gotoXY(1, 0);
+    display.gotoXY(1, 0);
     for (uint8_t i = 0; i < 3; i++)
     {
       uint8_t barHeight = map(lineSensorValues[i], 0, 2000, 0, 8);
       printBar(barHeight);
-      lcd.print(' ');
+      display.print(' ');
     }
 
     // Display an indicator of whether emitters are on or
     // off.
-    lcd.gotoXY(7, 1);
+    display.gotoXY(7, 1);
     if (emittersOff)
     {
-      lcd.print('\xa5');  // centered dot
+      display.print('\xa5');  // centered dot
     }
     else
     {
-      lcd.print('*');
+      display.print('*');
     }
   }
 }
@@ -337,20 +337,20 @@ void proxSensorDemo()
     bool proxRightActive = proxSensors.readBasicRight();
     proxSensors.read();
 
-    lcd.gotoXY(0, 0);
+    display.gotoXY(0, 0);
     printBar(proxSensors.countsLeftWithLeftLeds());
     printBar(proxSensors.countsLeftWithRightLeds());
-    lcd.print(' ');
+    display.print(' ');
     printBar(proxSensors.countsFrontWithLeftLeds());
     printBar(proxSensors.countsFrontWithRightLeds());
-    lcd.print(' ');
+    display.print(' ');
     printBar(proxSensors.countsRightWithLeftLeds());
     printBar(proxSensors.countsRightWithRightLeds());
 
     // On the last 3 characters of the second line, display
     // basic readings of the sensors taken without sending
     // IR pulses.
-    lcd.gotoXY(5, 1);
+    display.gotoXY(5, 1);
     printBar(proxLeftActive);
     printBar(proxFrontActive);
     printBar(proxRightActive);
@@ -386,13 +386,13 @@ void printLargestAxis(int16_t x, int16_t y, int16_t z, uint16_t threshold)
 
   if (abs(largest) < threshold)
   {
-    lcd.print("  ");
+    display.print("  ");
   }
   else
   {
     bool positive = (largest > 0);
-    lcd.print(positive ? '+' : '-');
-    lcd.print(axis);
+    display.print(positive ? '+' : '-');
+    display.print(axis);
   }
 }
 
@@ -405,18 +405,18 @@ void inertialDemo()
 {
   displayBackArrow();
 
-  lcd.gotoXY(3, 0);
-  lcd.print(F("Rot"));
-  lcd.gotoXY(4, 1);
-  lcd.print(F("Up"));
+  display.gotoXY(3, 0);
+  display.print(F("Rot"));
+  display.gotoXY(4, 1);
+  display.print(F("Up"));
 
   while (buttonMonitor() != 'B')
   {
     imu.read();
 
-    lcd.gotoXY(6, 0);
+    display.gotoXY(6, 0);
     printLargestAxis(imu.g.x, imu.g.y, imu.g.z, 2000);
-    lcd.gotoXY(6, 1);
+    display.gotoXY(6, 1);
     printLargestAxis(imu.a.x, imu.a.y, imu.a.z, 200);
   }
 }
@@ -432,9 +432,9 @@ void inertialDemo()
 void motorDemoHelper(bool showEncoders)
 {
   loadCustomCharactersMotorDirs();
-  lcd.clear();
-  lcd.gotoXY(1, 1);
-  lcd.print(F("A \7B C"));
+  display.clear();
+  display.gotoXY(1, 1);
+  display.print(F("A \7B C"));
 
   int16_t leftSpeed = 0, rightSpeed = 0;
   int8_t leftDir = 1, rightDir = 1;
@@ -459,25 +459,25 @@ void motorDemoHelper(bool showEncoders)
     {
       lastUpdateTime = millis();
 
-      lcd.gotoXY(0, 0);
+      display.gotoXY(0, 0);
       if (showEncoders)
       {
         sprintf(buf, "%03d", encCountsLeft);
-        lcd.print(buf);
-        lcd.gotoXY(5, 0);
+        display.print(buf);
+        display.gotoXY(5, 0);
         sprintf(buf, "%03d", encCountsRight);
-        lcd.print(buf);
+        display.print(buf);
       }
       else
       {
         // Cycle the instructions every 2 seconds.
         if (instructCount == 0)
         {
-          lcd.print("Hold=run");
+          display.print("Hold=run");
         }
         else if (instructCount == 40)
         {
-          lcd.print("Tap=flip");
+          display.print("Tap=flip");
         }
         if (++instructCount == 80) { instructCount = 0; }
       }
@@ -539,23 +539,23 @@ void motorDemoHelper(bool showEncoders)
 
       // Display arrows pointing the appropriate direction
       // (solid if the motor is running, chevrons if not).
-      lcd.gotoXY(0, 1);
+      display.gotoXY(0, 1);
       if (leftSpeed == 0)
       {
-        lcd.print((leftDir > 0) ? '\0' : '\1');
+        display.print((leftDir > 0) ? '\0' : '\1');
       }
       else
       {
-        lcd.print((leftDir > 0) ? '\2' : '\3');
+        display.print((leftDir > 0) ? '\2' : '\3');
       }
-      lcd.gotoXY(7, 1);
+      display.gotoXY(7, 1);
       if (rightSpeed == 0)
       {
-        lcd.print((rightDir > 0) ? '\0' : '\1');
+        display.print((rightDir > 0) ? '\0' : '\1');
       }
       else
       {
-        lcd.print((rightDir > 0) ? '\2' : '\3');
+        display.print((rightDir > 0) ? '\2' : '\3');
       }
     }
   }
@@ -604,11 +604,11 @@ void musicDemo()
     {
       lastShiftTime = millis();
 
-      lcd.gotoXY(0, 0);
+      display.gotoXY(0, 0);
       for (uint8_t i = 0; i < 8; i++)
       {
         char c = pgm_read_byte(fugueTitle + fugueTitlePos + i);
-        lcd.print(c);
+        display.print(c);
       }
       fugueTitlePos++;
 
@@ -643,13 +643,13 @@ void powerDemo()
       uint16_t batteryLevel = readBatteryMillivolts();
 
       lastDisplayTime = millis();
-      lcd.gotoXY(0, 0);
+      display.gotoXY(0, 0);
       sprintf(buf, "%5d", batteryLevel);
-      lcd.print(buf);
-      lcd.print(F(" mV"));
-      lcd.gotoXY(3, 1);
-      lcd.print(F("USB="));
-      lcd.print(usbPower ? 'Y' : 'N');
+      display.print(buf);
+      display.print(F(" mV"));
+      display.gotoXY(3, 1);
+      display.print(F("USB="));
+      display.print(usbPower ? 'Y' : 'N');
     }
   }
 }
@@ -723,10 +723,10 @@ void setup()
     // Play a special sound and display a note to the user.
 
     buzzer.playFromProgramSpace(beepBrownout);
-    lcd.clear();
-    lcd.print(F("Brownout"));
-    lcd.gotoXY(0, 1);
-    lcd.print(F(" reset! "));
+    display.clear();
+    display.print(F("Brownout"));
+    display.gotoXY(0, 1);
+    display.print(F(" reset! "));
     delay(1000);
   }
   else
@@ -734,37 +734,37 @@ void setup()
     buzzer.playFromProgramSpace(beepWelcome);
   }
 
-  lcd.clear();
-  lcd.print(F("  Zumo"));
-  lcd.gotoXY(2, 1);
-  lcd.print(F("32U4"));
+  display.clear();
+  display.print(F("  Zumo"));
+  display.gotoXY(2, 1);
+  display.print(F("32U4"));
 
   delay(1000);
 
-  lcd.clear();
-  lcd.print(F("Demo"));
-  lcd.gotoXY(0, 1);
-  lcd.print(F("Program"));
+  display.clear();
+  display.print(F("Demo"));
+  display.gotoXY(0, 1);
+  display.print(F("Program"));
   delay(1000);
 
-  lcd.clear();
-  lcd.print(F("Use B to"));
-  lcd.gotoXY(0, 1);
-  lcd.print(F("select."));
+  display.clear();
+  display.print(F("Use B to"));
+  display.gotoXY(0, 1);
+  display.print(F("select."));
   delay(1000);
 
-  lcd.clear();
-  lcd.print(F("Press B"));
-  lcd.gotoXY(0, 1);
-  lcd.print(F("-try it!"));
+  display.clear();
+  display.print(F("Press B"));
+  display.gotoXY(0, 1);
+  display.print(F("-try it!"));
 
   while (buttonMonitor() != 'B'){}
 
   buzzer.playFromProgramSpace(beepThankYou);
-  lcd.clear();
-  lcd.print(F(" Thank"));
-  lcd.gotoXY(0, 1);
-  lcd.print(F("  you!"));
+  display.clear();
+  display.print(F(" Thank"));
+  display.gotoXY(0, 1);
+  display.print(F("  you!"));
   delay(1000);
 }
 
@@ -772,10 +772,10 @@ void setup()
 // main menu, runs their selection, and then returns.
 void mainMenuSelect()
 {
-  lcd.clear();
-  lcd.print(F("  Main"));
-  lcd.gotoXY(0, 1);
-  lcd.print(F("  Menu"));
+  display.clear();
+  display.print(F("  Main"));
+  display.gotoXY(0, 1);
+  display.print(F("  Menu"));
   delay(1000);
   mainMenu.select();
 }

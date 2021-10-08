@@ -16,7 +16,11 @@ gearmotors. */
 #include <Wire.h>
 #include <Zumo32U4.h>
 
-Zumo32U4LCD lcd;
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
+
 Zumo32U4ButtonA buttonA;
 Zumo32U4Buzzer buzzer;
 Zumo32U4Motors motors;
@@ -140,14 +144,14 @@ void loop()
     if (justChangedState)
     {
       justChangedState = false;
-      lcd.print(F("Press A"));
+      display.print(F("Press A"));
     }
 
     if (displayIsStale(100))
     {
       displayUpdated();
-      lcd.gotoXY(0, 1);
-      lcd.print(readBatteryMillivolts());
+      display.gotoXY(0, 1);
+      display.print(readBatteryMillivolts());
     }
 
     if (buttonPress)
@@ -174,10 +178,10 @@ void loop()
     {
       // Display the remaining time we have to wait.
       uint16_t timeLeft = waitTime - time;
-      lcd.gotoXY(0, 0);
-      lcd.print(timeLeft / 1000 % 10);
-      lcd.print('.');
-      lcd.print(timeLeft / 100 % 10);
+      display.gotoXY(0, 0);
+      display.print(timeLeft / 1000 % 10);
+      display.print('.');
+      display.print(timeLeft / 100 % 10);
     }
     else
     {
@@ -192,7 +196,7 @@ void loop()
     if (justChangedState)
     {
       justChangedState = false;
-      lcd.print(F("back"));
+      display.print(F("back"));
     }
 
     motors.setSpeeds(-reverseSpeed, -reverseSpeed);
@@ -212,7 +216,7 @@ void loop()
     if (justChangedState)
     {
       justChangedState = false;
-      lcd.print(F("scan"));
+      display.print(F("scan"));
     }
 
     if (scanDir == DirectionRight)
@@ -252,7 +256,7 @@ void loop()
     if (justChangedState)
     {
       justChangedState = false;
-      lcd.print(F("drive"));
+      display.print(F("drive"));
     }
 
     // Check for borders.
@@ -355,7 +359,7 @@ void changeState(uint8_t newState)
   ledRed(0);
   ledYellow(0);
   ledGreen(0);
-  lcd.clear();
+  display.clear();
   displayCleared = true;
 }
 

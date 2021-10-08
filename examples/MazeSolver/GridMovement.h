@@ -67,5 +67,5 @@ void gridMovementSetup();
 extern Zumo32U4IMU imu;
 extern Zumo32U4ButtonA buttonA;
 extern Zumo32U4Motors motors;
-extern Zumo32U4LCD lcd;
+extern Zumo32U4LCD display;
 extern Zumo32U4LineSensors lineSensors;

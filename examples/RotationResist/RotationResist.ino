@@ -28,7 +28,11 @@ it down facing in a new position. */
 // this value to impose a speed limit.
 const int16_t maxSpeed = 400;
 
-Zumo32U4LCD lcd;
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
+
 Zumo32U4ButtonA buttonA;
 Zumo32U4Motors motors;
 Zumo32U4IMU imu;
@@ -39,10 +43,10 @@ void setup()
   delay(500);
   turnSensorReset();
 
-  lcd.clear();
-  lcd.print(F("Try to"));
-  lcd.gotoXY(0, 1);
-  lcd.print(F("turn me!"));
+  display.clear();
+  display.print(F("Try to"));
+  display.gotoXY(0, 1);
+  display.print(F("turn me!"));
 }
 
 void loop()

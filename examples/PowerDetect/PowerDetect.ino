@@ -15,7 +15,10 @@ discharge. */
 #include <Wire.h>
 #include <Zumo32U4.h>
 
-Zumo32U4LCD lcd;
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
 
 void setup()
 {
@@ -29,13 +32,13 @@ void loop()
   uint16_t batteryLevel = readBatteryMillivolts();
 
   // Print the results to the LCD.
-  lcd.clear();
-  lcd.print(F("B="));
-  lcd.print(batteryLevel);
-  lcd.print(F("mV   "));
-  lcd.gotoXY(0, 1);
-  lcd.print(F("USB="));
-  lcd.print(usbPower ? 'Y' : 'N');
+  display.clear();
+  display.print(F("B="));
+  display.print(batteryLevel);
+  display.print(F("mV   "));
+  display.gotoXY(0, 1);
+  display.print(F("USB="));
+  display.print(usbPower ? 'Y' : 'N');
 
   // Print the results to the serial monitor.
   Serial.print(F("USB="));

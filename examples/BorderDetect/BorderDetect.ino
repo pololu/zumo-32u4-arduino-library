@@ -16,7 +16,11 @@ backs up and turns. */
 #define REVERSE_DURATION  200  // ms
 #define TURN_DURATION     300  // ms
 
-Zumo32U4LCD lcd;
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
+
 Zumo32U4ButtonA buttonA;
 Zumo32U4Buzzer buzzer;
 Zumo32U4Motors motors;
@@ -28,13 +32,13 @@ unsigned int lineSensorValues[NUM_SENSORS];
 void waitForButtonAndCountDown()
 {
   ledYellow(1);
-  lcd.clear();
-  lcd.print(F("Press A"));
+  display.clear();
+  display.print(F("Press A"));
 
   buttonA.waitForButton();
 
   ledYellow(0);
-  lcd.clear();
+  display.clear();
 
   // Play audible countdown.
   for (int i = 0; i < 3; i++)

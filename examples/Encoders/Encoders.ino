@@ -23,11 +23,15 @@ encoders, respectively. */
 #include <Zumo32U4.h>
 
 Zumo32U4Encoders encoders;
-Zumo32U4LCD lcd;
 Zumo32U4Buzzer buzzer;
 Zumo32U4Motors motors;
 Zumo32U4ButtonA buttonA;
 Zumo32U4ButtonC buttonC;
+
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
 
 const char encoderErrorLeft[] PROGMEM = "!<c2";
 const char encoderErrorRight[] PROGMEM = "!<e2";
@@ -74,17 +78,17 @@ void loop()
     }
 
     // Update the LCD with encoder counts and error info.
-    lcd.clear();
-    lcd.print(countsLeft);
-    lcd.gotoXY(0, 1);
-    lcd.print(countsRight);
+    display.clear();
+    display.print(countsLeft);
+    display.gotoXY(0, 1);
+    display.print(countsRight);
 
     if (displayErrorLeftCountdown)
     {
       // Show an exclamation point on the first line to
       // indicate an error from the left encoder.
-      lcd.gotoXY(7, 0);
-      lcd.print('!');
+      display.gotoXY(7, 0);
+      display.print('!');
       displayErrorLeftCountdown--;
     }
 
@@ -92,8 +96,8 @@ void loop()
     {
       // Show an exclamation point on the second line to
       // indicate an error from the left encoder.
-      lcd.gotoXY(7, 1);
-      lcd.print('!');
+      display.gotoXY(7, 1);
+      display.print('!');
       displayErrorRightCountdown--;
     }
 

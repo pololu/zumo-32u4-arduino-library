@@ -23,7 +23,11 @@ DN4 and pin 20 to DN2. */
 #include <Wire.h>
 #include <Zumo32U4.h>
 
-Zumo32U4LCD lcd;
+// Change next line to this if you are using the older Zumo 32U4
+// with a black and green LCD display:
+// Zumo32U4LCD display;
+Zumo32U4OLED display;
+
 Zumo32U4ButtonA buttonA;
 Zumo32U4ButtonB buttonB;
 Zumo32U4ButtonC buttonC;
@@ -49,26 +53,26 @@ void loadCustomCharacters()
   static const char levels[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 63, 63, 63, 63, 63, 63, 63
   };
-  lcd.loadCustomCharacter(levels + 0, 0);  // 1 bar
-  lcd.loadCustomCharacter(levels + 1, 1);  // 2 bars
-  lcd.loadCustomCharacter(levels + 2, 2);  // 3 bars
-  lcd.loadCustomCharacter(levels + 3, 3);  // 4 bars
-  lcd.loadCustomCharacter(levels + 4, 4);  // 5 bars
-  lcd.loadCustomCharacter(levels + 5, 5);  // 6 bars
-  lcd.loadCustomCharacter(levels + 6, 6);  // 7 bars
+  display.loadCustomCharacter(levels + 0, 0);  // 1 bar
+  display.loadCustomCharacter(levels + 1, 1);  // 2 bars
+  display.loadCustomCharacter(levels + 2, 2);  // 3 bars
+  display.loadCustomCharacter(levels + 3, 3);  // 4 bars
+  display.loadCustomCharacter(levels + 4, 4);  // 5 bars
+  display.loadCustomCharacter(levels + 5, 5);  // 6 bars
+  display.loadCustomCharacter(levels + 6, 6);  // 7 bars
 }
 
 void printBar(uint8_t height)
 {
   if (height > 8) { height = 8; }
   const char barChars[] = {' ', 0, 1, 2, 3, 4, 5, 6, (char)255};
-  lcd.print(barChars[height]);
+  display.print(barChars[height]);
 }
 
 void printReadingsToLCD()
 {
   // On the first line of the LCD, display the bar graph.
-  lcd.gotoXY(0, 0);
+  display.gotoXY(0, 0);
   for (uint8_t i = 0; i < 5; i++)
   {
     uint8_t barHeight = map(lineSensorValues[i], 0, 2000, 0, 8);
@@ -76,15 +80,15 @@ void printReadingsToLCD()
   }
 
   // Print "E" if the emitters are on, "e" if they are off.
-  lcd.gotoXY(7, 0);
-  lcd.print(useEmitters ? 'E' : 'e');
+  display.gotoXY(7, 0);
+  display.print(useEmitters ? 'E' : 'e');
 
   // On the second line of the LCD, display one raw reading.
-  lcd.gotoXY(0, 1);
-  lcd.print(selectedSensorIndex);
-  lcd.print(F(": "));
-  lcd.print(lineSensorValues[selectedSensorIndex]);
-  lcd.print(F("    "));
+  display.gotoXY(0, 1);
+  display.print(selectedSensorIndex);
+  display.print(F(": "));
+  display.print(lineSensorValues[selectedSensorIndex]);
+  display.print(F("    "));
 }
 
 // Prints a line with all the sensor readings to the serial
