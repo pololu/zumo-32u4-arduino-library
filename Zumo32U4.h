@@ -24,6 +24,7 @@
 #include <Zumo32U4LCD.h>
 #include <Zumo32U4LineSensors.h>
 #include <Zumo32U4Motors.h>
+#include <Zumo32U4OLED.h>
 #include <Zumo32U4ProximitySensors.h>
 
 // TODO: servo support
