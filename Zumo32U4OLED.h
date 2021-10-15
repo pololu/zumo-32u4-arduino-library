@@ -60,6 +60,8 @@ public:
 
     savedStateMosi = FastGPIO::Pin<mosPin>::getState();
     savedStateDc = FastGPIO::Pin<dcPin>::getState();
+
+    FastGPIO::Pin<mosPin>::setOutputLow();
   }
 
   void sh1106TransferEnd()
