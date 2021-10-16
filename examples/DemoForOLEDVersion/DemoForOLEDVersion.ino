@@ -11,7 +11,10 @@ try rotating the contrast potentiometer. */
 #include <Wire.h>
 #include <Zumo32U4.h>
 
+#include <PololuMenu.h>
+
 Zumo32U4OLED display;
+
 Zumo32U4Buzzer buzzer;
 Zumo32U4ButtonA buttonA;
 Zumo32U4ButtonB buttonB;
@@ -22,87 +25,10 @@ Zumo32U4IMU imu;
 Zumo32U4Motors motors;
 Zumo32U4Encoders encoders;
 
-char buttonMonitor();
+PololuMenu<typeof(display)> mainMenu;
 
-class Menu
-{
-public:
-  struct Item
-  {
-    const char * name;
-    void (* action)();
-  };
-
-  Menu(Item * items, uint8_t itemCount)
-  {
-    this->items = items;
-    this->itemCount = itemCount;
-    displayItemIndex = 0;
-  }
-
-  void displayUpdate(uint8_t index)
-  {
-    display.clear();
-    display.print(items[index].name);
-    display.gotoXY(0, 1);
-    display.print(F("\x7f" "A \xa5" "B C\x7e"));
-  }
-
-  void action(uint8_t index)
-  {
-    items[index].action();
-  }
-
-  // Prompts the user to choose one of the menu items,
-  // then runs it, then returns.
-  void select()
-  {
-    displayUpdate(displayItemIndex);
-
-    while (1)
-    {
-      switch (buttonMonitor())
-      {
-      case 'A':
-        // The A button was pressed so decrement the index.
-        if (displayItemIndex == 0)
-        {
-          displayItemIndex = itemCount - 1;
-        }
-        else
-        {
-          displayItemIndex--;
-        }
-        displayUpdate(displayItemIndex);
-        break;
-
-      case 'C':
-        // The C button was pressed so increase the index.
-        if (displayItemIndex >= itemCount - 1)
-        {
-          displayItemIndex = 0;
-        }
-        else
-        {
-          displayItemIndex++;
-        }
-        displayUpdate(displayItemIndex);
-        break;
-
-      case 'B':
-        // The B button was pressed so run the item and return.
-        action(displayItemIndex);
-        return;
-      }
-    }
-  }
-
-private:
-  Item * items;
-  uint8_t itemCount;
-  uint8_t displayItemIndex;
-};
-
+// declarations for splash screen
+#include "splash.h"
 
 // A couple of simple tunes, stored in program space.
 const char beepBrownout[] PROGMEM = "<c8";
@@ -218,6 +144,85 @@ void displayBackArrow()
   display.gotoXY(0,0);
 }
 
+void displaySplash(uint8_t *graphics, uint8_t offset = 0)
+{
+  memset(graphics, 0, sizeof(zumo32U4Splash));
+  for(uint16_t i = 0; i < sizeof(zumo32U4Splash) - offset*128; i++)
+  {
+    graphics[i] = pgm_read_byte(zumo32U4Splash + (i%128)*8 + i/128 + offset);
+  }
+  display.display();
+}
+
+void showSplash()
+{
+  // We only need the graphics array within showSplash(); it's not
+  // used elsewhere in the demo program, so we can make it a local
+  // variable.
+  uint8_t graphics[1024];
+
+  display.setLayout21x8WithGraphics(graphics);
+  displaySplash(graphics, 0);
+
+  uint16_t blinkStart = millis();
+  while((uint16_t)(millis() - blinkStart) < 900)
+  {
+    // keep setting the LEDs on for 1s
+    // the Green/Red LEDs might turn off during USB communication
+    ledYellow(1);
+    ledGreen(1);
+    ledRed(1);
+  }
+
+  // scroll quickly up
+  for(uint8_t offset = 1; offset < 6; offset ++)
+  {
+    delay(100);
+    displaySplash(graphics, offset);
+  }
+
+  display.clear();
+  display.gotoXY(0, 4);
+  display.print(F("Push B to start demo!"));
+  display.gotoXY(0, 5);
+  display.print(F("For more info, visit"));
+  display.gotoXY(0, 6);
+  display.print(F("   www.pololu.com/"));
+  display.gotoXY(0, 7);
+  display.print(F("      zumo32u4"));
+
+  while((uint16_t)(millis() - blinkStart) < 2000)
+  {
+    // keep the LEDs off for 1s
+    ledYellow(0);
+    ledGreen(0);
+    ledRed(0);
+  }
+
+  // Keep blinking the green LED while waiting for the
+  // user to press button B.
+  blinkStart = millis();
+  while (mainMenu.buttonMonitor() != 'B')
+  {
+    uint16_t blinkPhase = millis() - blinkStart;
+    ledGreen(blinkPhase < 1000);
+    if (blinkPhase >= 2000) { blinkStart += 2000; }
+  }
+  ledGreen(0);
+
+  display.setLayout11x4WithGraphics(graphics);
+  display.clear();
+  display.gotoXY(0,3);
+  display.noAutoDisplay();
+  display.print(F("Thank you!!"));
+  display.display();
+
+  buzzer.playFromProgramSpace(beepThankYou);
+  delay(1000);
+  display.clear();
+  display.setLayout8x2();
+}
+
 // Blinks all three LEDs in sequence.
 void ledDemo()
 {
@@ -225,7 +230,7 @@ void ledDemo()
 
   uint8_t state = 3;
   static uint16_t lastUpdateTime = millis() - 2000;
-  while (buttonMonitor() != 'B')
+  while (mainMenu.buttonMonitor() != 'B')
   {
     if ((uint16_t)(millis() - lastUpdateTime) >= 500)
     {
@@ -289,7 +294,7 @@ void lineSensorDemo()
   uint16_t lineSensorValues[3];
   char c;
 
-  while (buttonMonitor() != 'B')
+  while (mainMenu.buttonMonitor() != 'B')
   {
     bool emittersOff = buttonC.isPressed();
 
@@ -330,7 +335,7 @@ void proxSensorDemo()
   loadCustomCharactersBarGraph();
   displayBackArrow();
 
-  while (buttonMonitor() != 'B')
+  while (mainMenu.buttonMonitor() != 'B')
   {
     bool proxLeftActive = proxSensors.readBasicLeft();
     bool proxFrontActive = proxSensors.readBasicFront();
@@ -410,7 +415,7 @@ void inertialDemo()
   display.gotoXY(4, 1);
   display.print(F("Up"));
 
-  while (buttonMonitor() != 'B')
+  while (mainMenu.buttonMonitor() != 'B')
   {
     imu.read();
 
@@ -444,7 +449,7 @@ void motorDemoHelper(bool showEncoders)
   int16_t encCountsLeft = 0, encCountsRight = 0;
   char buf[4];
 
-  while (buttonMonitor() != 'B')
+  while (mainMenu.buttonMonitor() != 'B')
   {
     encCountsLeft += encoders.getCountsAndResetLeft();
     if (encCountsLeft < 0) { encCountsLeft += 1000; }
@@ -597,7 +602,7 @@ void musicDemo()
   uint8_t fugueTitlePos = 0;
   uint16_t lastShiftTime = millis() - 2000;
 
-  while (buttonMonitor() != 'B')
+  while (mainMenu.buttonMonitor() != 'B')
   {
     // Shift the song title to the left every 250 ms.
     if ((uint16_t)(millis() - lastShiftTime) > 250)
@@ -634,7 +639,7 @@ void powerDemo()
   uint16_t lastDisplayTime = millis() - 2000;
   char buf[6];
 
-  while (buttonMonitor() != 'B')
+  while (mainMenu.buttonMonitor() != 'B')
   {
     if ((uint16_t)(millis() - lastDisplayTime) > 250)
     {
@@ -654,48 +659,24 @@ void powerDemo()
   }
 }
 
-Menu::Item mainMenuItems[] = {
-  { "LEDs", ledDemo },
-  { "LineSens", lineSensorDemo },
-  { "ProxSens", proxSensorDemo },
-  { "Inertial", inertialDemo },
-  { "Motors", motorDemo },
-  { "Encoders", encoderDemo },
-  { "Music", musicDemo },
-  { "Power", powerDemo },
-};
-Menu mainMenu(mainMenuItems, 8);
-
-// This function watches for button presses.  If a button is
-// pressed, it beeps a corresponding beep and it returns 'A',
-// 'B', or 'C' depending on what button was pressed.  If no
-// button was pressed, it returns 0.  This function is meant to
-// be called repeatedly in a loop.
-char buttonMonitor()
-{
-  if (buttonA.getSingleDebouncedPress())
-  {
-    buzzer.playFromProgramSpace(beepButtonA);
-    return 'A';
-  }
-
-  if (buttonB.getSingleDebouncedPress())
-  {
-    buzzer.playFromProgramSpace(beepButtonB);
-    return 'B';
-  }
-
-  if (buttonC.getSingleDebouncedPress())
-  {
-    buzzer.playFromProgramSpace(beepButtonC);
-    return 'C';
-  }
-
-  return 0;
-}
-
 void setup()
 {
+  static const PololuMenuItem mainMenuItems[] = {
+    { F("LEDs"), ledDemo },
+    { F("LineSens"), lineSensorDemo },
+    { F("ProxSens"), proxSensorDemo },
+    { F("Inertial"), inertialDemo },
+    { F("Motors"), motorDemo },
+    { F("Encoders"), encoderDemo },
+    { F("Music"), musicDemo },
+    { F("Power"), powerDemo },
+  };
+  mainMenu.setItems(mainMenuItems, sizeof(mainMenuItems)/sizeof(mainMenuItems[0]));
+  mainMenu.setDisplay(display);
+  mainMenu.setBuzzer(buzzer);
+  mainMenu.setButtons(buttonA, buttonB, buttonC);
+  mainMenu.setSecondLine(F("\x7f" "A \xa5" "B C\x7e"));
+
   lineSensors.initThreeSensors();
   proxSensors.initThreeSensors();
   initInertialSensors();
@@ -734,53 +715,29 @@ void setup()
     buzzer.playFromProgramSpace(beepWelcome);
   }
 
-  display.clear();
-  display.print(F("  Zumo"));
-  display.gotoXY(2, 1);
-  display.print(F("32U4"));
+  showSplash();
 
-  delay(1000);
-
-  display.clear();
-  display.print(F("Demo"));
-  display.gotoXY(0, 1);
-  display.print(F("Program"));
-  delay(1000);
-
-  display.clear();
-  display.print(F("Use B to"));
-  display.gotoXY(0, 1);
-  display.print(F("select."));
-  delay(1000);
-
-  display.clear();
-  display.print(F("Press B"));
-  display.gotoXY(0, 1);
-  display.print(F("-try it!"));
-
-  while (buttonMonitor() != 'B'){}
-
-  buzzer.playFromProgramSpace(beepThankYou);
-  display.clear();
-  display.print(F(" Thank"));
-  display.gotoXY(0, 1);
-  display.print(F("  you!"));
-  delay(1000);
+  mainMenuWelcome();
 }
 
-// This function prompts the user to choose something from the
-// main menu, runs their selection, and then returns.
-void mainMenuSelect()
+// Clear LEDs and show a message about the main menu.
+void mainMenuWelcome()
 {
+  ledYellow(false);
+  ledGreen(false);
+  ledRed(false);
   display.clear();
   display.print(F("  Main"));
   display.gotoXY(0, 1);
   display.print(F("  Menu"));
   delay(1000);
-  mainMenu.select();
 }
 
 void loop()
 {
-  mainMenuSelect();
+  if(mainMenu.select())
+  {
+    // a menu item ran; show "Main Menu" again and repeat
+    mainMenuWelcome();
+  }
 }
