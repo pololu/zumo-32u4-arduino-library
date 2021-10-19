@@ -49,7 +49,6 @@ the path it previously learned. */
 
 #include <Wire.h>
 #include <Zumo32U4.h>
-#include "GridMovement.h"
 
 // Change next line to this if you are using the older Zumo 32U4
 // with a black and green LCD display:
@@ -61,6 +60,9 @@ Zumo32U4ButtonA buttonA;
 Zumo32U4Motors motors;
 Zumo32U4LineSensors lineSensors;
 Zumo32U4IMU imu;
+
+#include "TurnSensor.h"
+#include "GridMovement.h"
 
 // The path variable will store the path that the robot has
 // taken.  It is stored as an array of characters, each of which

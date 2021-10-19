@@ -21,7 +21,6 @@ it down facing in a new position. */
 
 #include <Wire.h>
 #include <Zumo32U4.h>
-#include "TurnSensor.h"
 
 // This is the maximum speed the motors will be allowed to turn.
 // A maxSpeed of 400 lets the motors go at top speed.  Decrease
@@ -36,6 +35,8 @@ Zumo32U4OLED display;
 Zumo32U4ButtonA buttonA;
 Zumo32U4Motors motors;
 Zumo32U4IMU imu;
+
+#include "TurnSensor.h"
 
 void setup()
 {
