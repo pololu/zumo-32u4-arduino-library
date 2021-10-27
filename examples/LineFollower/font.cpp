@@ -1,8 +1,8 @@
 #include <Arduino.h>
 
-// For the Zumo 32U4 demo, replaces the default OLED font with an extended font
-// that incorporates several non-ASCII glyphs from the original HD44780
-// character set: the forward arrow, Greek pi, centered dot, and full box.
+// Replaces the default OLED font with an extended font that incorporates
+// several non-ASCII glyphs from the original HD44780 character set: the
+// forward arrow, Greek pi, centered dot, and full box.
 //
 // This file uses a #define hack to include a font file stored in a special
 // C-compatible format called X BitMap or "xbm".  To edit the font, you will
@@ -16,11 +16,11 @@
 // bit order used in the library.
 //
 // It is also allowed to use a smaller (shorter) image file, if you are not
-// using all the characters.  In this example, we use a font file that defines
-// only the 96 characters from 0x20 to 0x8f; non-ASCII characters above 0x8f
-// are excluded.
+// using all the characters.  For example, you could use a font file that defines
+// only the 96 characters from 0x20 to 0x8f.
 //
-// You can open original_font.xbm as a starting point.
+// You can open original_font.xbm from the PololuOLED library as a starting
+// point.
 //
 // Consider rotating and mirroring the original font file so that you can see
 // the letters in their proper orientation, transforming them back before
