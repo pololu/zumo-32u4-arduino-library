@@ -2,7 +2,6 @@
 
 Version: 1.2.0<br/>
 Release date: 2020-09-11<br/>
-[![Build Status](https://travis-ci.org/pololu/zumo-32u4-arduino-library.svg?branch=master)](https://travis-ci.org/pololu/zumo-32u4-arduino-library)<br/>
 [www.pololu.com](http://www.pololu.com/)
 
 ## Summary
