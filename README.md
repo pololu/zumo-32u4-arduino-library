@@ -1,14 +1,14 @@
 # Zumo32U4 library
 
-Version: 1.2.0<br/>
-Release date: 2020-09-11<br/>
+Version: 1.3.0<br/>
+Release date: 2021-11-12<br/>
 [www.pololu.com](http://www.pololu.com/)
 
 ## Summary
 
-This is a C++ library for the Arduino IDE that helps access the on-board hardware of the Zumo 32U4 robot.
+This is a C++ library for the Arduino IDE that helps access the on-board hardware of the [Zumo 32U4 robot](https://www.pololu.com/category/170/zumo-32u4-oled-robot) (both the [newer OLED version](https://www.pololu.com/category/170/zumo-32u4-robot) and the [original LCD version](https://www.pololu.com/category/286/original-zumo-32u4-robot)).
 
-The Zumo 32U4 robot consists of the Zumo chassis, the Zumo 32U4 Main Board, and the Zumo 32U4 Front Sensor Array.  It has an integrated AVR ATmega32U4 microcontroller, motor drivers, encoders, proximity sensors, line sensors, inertial sensors, buzzer, four buttons, LCD connector.  The user's guide for the Zumo 32U4 robot is here:
+The Zumo 32U4 robot consists of the Zumo chassis, the Zumo 32U4 Main Board, and the Zumo 32U4 Front Sensor Array.  It has an integrated AVR ATmega32U4 microcontroller, motor drivers, encoders, proximity sensors, line sensors, inertial sensors, buzzer, four buttons, and display screen (graphical OLED or LCD).  The user's guide for the Zumo 32U4 robot is here:
 
 https://www.pololu.com/docs/0J63
 
@@ -16,19 +16,22 @@ Please note that this library does NOT work with the Zumo Shield for Arduino, wh
 
 ## Installing the library
 
-If you are using version 1.6.2 or later of the [Arduino software (IDE)](http://www.arduino.cc/en/Main/Software), you can use the Library Manager to install this library:
+Use the Library Manager in version 1.8.10 or later of the Arduino software (IDE) to install this library:
 
-1. In the Arduino IDE, open the "Sketch" menu, select "Include Library", then "Manage Libraries...".
+1. In the Arduino IDE, open the "Tools" menu and select "Manage Libraries...".
 2. Search for "Zumo32U4".
 3. Click the Zumo32U4 entry in the list.
 4. Click "Install".
+5. If you see a prompt asking to install missing dependencies, click "Install all".
 
-If this does not work, you can manually install the library:
+## Usage
 
-1. Download the [latest release archive from GitHub](https://github.com/pololu/zumo-32u4-arduino-library) and decompress it.
-2. Rename the folder "zumo-32u4-arduino-library-master" to "Zumo32U4".
-3. Move the "Zumo32U4" folder into the "libraries" directory inside your Arduino sketchbook directory.  You can view your sketchbook location by opening the "File" menu and selecting "Preferences" in the Arduino IDE.  If there is not already a "libraries" folder in that location, you should make the folder yourself.
-4. After installing the library, restart the Arduino IDE.
+To access all features of this library, you just need these include statements:
+
+```cpp
+#include <Wire.h>
+#include <Zumo32U4.h>
+```
 
 ## Examples
 
@@ -48,6 +51,7 @@ The main classes and functions provided by the library are listed below:
 * Zumo32U4LCD
 * Zumo32U4LineSensors
 * Zumo32U4Motors
+* Zumo32U4OLED
 * Zumo32U4ProximitySensors
 * ledRed()
 * ledGreen()
@@ -55,27 +59,19 @@ The main classes and functions provided by the library are listed below:
 * usbPowerPresent()
 * readBatteryMillivolts()
 
-## Component libraries
+## Dependencies
 
-This library also includes copies of several other Arduino libraries inside it which are used to help implement the classes and functions above.
+This library also references several other Arduino libraries which are used to help implement the classes and functions above.
 
 * [FastGPIO](https://github.com/pololu/fastgpio-arduino)
 * [PololuBuzzer](https://github.com/pololu/pololu-buzzer-arduino)
 * [PololuHD44780](https://github.com/pololu/pololu-hd44780-arduino)
+* [PololuMenu](https://github.com/pololu/pololu-menu-arduino)
+* [PololuOLED](https://github.com/pololu/pololu-oled-arduino)
 * [Pushbutton](https://github.com/pololu/pushbutton-arduino)
-* [QTRSensors](https://github.com/pololu/qtr-sensors-arduino)
 * [USBPause](https://github.com/pololu/usb-pause-arduino)
 
-Additionally, the [LSM303](https://github.com/pololu/lsm303-arduino) and [L3G](https://github.com/pololu/l3g-arduino) libraries are included for backward compatibility with older versions of the Zumo32U4 library, but we recommend using the Zumo32U4IMU class to interface with the inertial sensors instead.
-
-You can use these libraries in your sketch automatically without any extra installation steps and without needing to add any extra `#include` lines to your sketch.
-
-You should avoid adding extra `#include` lines such as `#include <Pushbutton.h>` because then the Arduino IDE might try to use the standalone Pushbutton library (if you previously installed it), and it would conflict with the copy of the Pushbutton code included in this library.  The only `#include` lines needed to access all features of this library are:
-
-~~~{.cpp}
-#include <Wire.h>
-#include <Zumo32U4.h>
-~~~
+If you require backward compatibility with older versions of the Zumo32U4 library, you can additionally install the [LSM303](https://github.com/pololu/lsm303-arduino) and [L3G](https://github.com/pololu/l3g-arduino) libraries yourself, but we recommend using the Zumo32U4IMU class to interface with the inertial sensors instead.
 
 ## Documentation
 
@@ -83,6 +79,7 @@ For complete documentation, see https://pololu.github.io/zumo-32u4-arduino-libra
 
 ## Version history
 
+* 1.3.0 (2021-11-12): Added support for the Zumo 32U4 OLED. Reorganized the library's directory structure and replaced most of the bundled component libraries with Arduino Library Manager dependencies.
 * 1.2.0 (2020-09-11): Added a Zumo32U4IMU class that abstracts some details of the inertial sensors and supports different IMU types. The examples have been updated to use this class.
 * 1.1.4 (2017-07-17): Fixed a bug that caused errors from the right encoder to be reported as errors from the left encoder.
 * 1.1.3 (2016-10-12): Fixed a bug that caused the buzzer's `isPlaying` method to malfunction sometimes when link time optimization is enabled.  Also incorporated some minor fixes to the QTRSensors and LSM303 libraries.
