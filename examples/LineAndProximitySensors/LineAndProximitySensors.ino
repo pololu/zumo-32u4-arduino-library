@@ -3,7 +3,7 @@ three proximity sensors on the Zumo32U4 Front Sensor Array and
 documents the different options available for configuring those
 sensors.
 
-The sensor readings are displayed on the LCD and also printed to
+The sensor readings are shown on the display and also printed to
 the serial monitor. */
 
 #include <Wire.h>
@@ -118,7 +118,7 @@ void setup()
 void calibrateLineSensors()
 {
   // To indicate we are in calibration mode, turn on the yellow LED
-  // and print "Line cal" on the LCD.
+  // and print "Line cal" on the display.
   ledYellow(1);
   display.clear();
   display.print(F("Line cal"));
@@ -155,10 +155,10 @@ void printBar(uint8_t height)
   display.print(barChars[height]);
 }
 
-// Prints a bar graph showing all the sensor readings on the LCD.
-void printReadingsToLCD()
+// Prints a bar graph showing all the sensor readings on the display.
+void printReadingsToDisplay()
 {
-  // On the first line of the LCD, display proximity sensor
+  // On the first line of the display, show proximity sensor
   // readings.
   display.gotoXY(0, 0);
   printBar(proxSensors.countsLeftWithLeftLeds());
@@ -170,7 +170,7 @@ void printReadingsToLCD()
   printBar(proxSensors.countsRightWithLeftLeds());
   printBar(proxSensors.countsRightWithRightLeds());
 
-  // On the second line of the LCD, display line sensor readings.
+  // On the second line of the display, show line sensor readings.
   // These calibrated sensor readings are between 0 and 1000, so
   // we use the map function to rescale it to 0 through 8.
   display.gotoXY(0, 1);
@@ -231,8 +231,8 @@ void loop()
     // Read the line sensors.
     lineSensors.readCalibrated(lineSensorValues);
 
-    // Send the results to the LCD and to the serial monitor.
-    printReadingsToLCD();
+    // Send the results to the display and to the serial monitor.
+    printReadingsToDisplay();
     printReadingsToSerial();
   }
 }

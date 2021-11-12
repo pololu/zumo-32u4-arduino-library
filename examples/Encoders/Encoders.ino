@@ -6,13 +6,13 @@ You can press button A on the Zumo to drive both motors forward
 at full speed.  You can press button C to drive both motors
 in reverse at full speed.
 
-Encoder counts are printed to the LCD and to the serial monitor.
+Encoder counts are printed to the display and to the serial monitor.
 
-On the LCD, the top line shows the counts from the left encoder,
+On the display, the top line shows the counts from the left encoder,
 and the bottom line shows the counts from the right encoder.
 Encoder errors should not happen, but if one does happen then the
 buzzer will beep and an exclamation mark will appear temporarily
-on the LCD.
+on the display.
 
 In the serial monitor, the first and second numbers represent
 counts from the left and right encoders, respectively.  The third
@@ -62,7 +62,7 @@ void loop()
     if(encoders.checkErrorLeft())
     {
       // An error occurred on the left encoder channel.
-      // Display it on the LCD for the next 10 iterations and
+      // Show it on the display for the next 10 iterations and
       // also beep.
       displayErrorLeftCountdown = 10;
       buzzer.playFromProgramSpace(encoderErrorLeft);
@@ -71,13 +71,13 @@ void loop()
     if(encoders.checkErrorRight())
     {
       // An error occurred on the left encoder channel.
-      // Display it on the LCD for the next 10 iterations and
+      // Show it on the display for the next 10 iterations and
       // also beep.
       displayErrorRightCountdown = 10;
       buzzer.playFromProgramSpace(encoderErrorRight);
     }
 
-    // Update the LCD with encoder counts and error info.
+    // Update the display with encoder counts and error info.
     display.clear();
     display.print(countsLeft);
     display.gotoXY(0, 1);

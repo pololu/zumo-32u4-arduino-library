@@ -4,11 +4,11 @@ useful if you are having trouble with the sensors or just want to
 characterize their behavior.
 
 The raw (uncalibrated) values are reported to the serial monitor,
-and also displayed on the LCD.  The first line of the LCD
-displays a bar graph of all five readings.  The upper right
+and also shown on the display.  The first line of the display
+shows a bar graph of all five readings.  The upper right
 corner shows a an "E" if the IR emitters are being used (the
 default) or an "e" if they are not being used.  The second line
-displays the raw reading for the currently-selected sensor.
+shows the raw reading for the currently-selected sensor.
 
 You can press the "A" and "B" buttons to change which sensor is
 selected.
@@ -69,9 +69,9 @@ void printBar(uint8_t height)
   display.print(barChars[height]);
 }
 
-void printReadingsToLCD()
+void printReadingsToDisplay()
 {
-  // On the first line of the LCD, display the bar graph.
+  // On the first line of the display, show the bar graph.
   display.gotoXY(0, 0);
   for (uint8_t i = 0; i < 5; i++)
   {
@@ -83,7 +83,7 @@ void printReadingsToLCD()
   display.gotoXY(7, 0);
   display.print(useEmitters ? 'E' : 'e');
 
-  // On the second line of the LCD, display one raw reading.
+  // On the second line of the display, show one raw reading.
   display.gotoXY(0, 1);
   display.print(selectedSensorIndex);
   display.print(F(": "));
@@ -118,8 +118,8 @@ void loop()
     // Read the line sensors.
     lineSensors.read(lineSensorValues, useEmitters ? QTR_EMITTERS_ON : QTR_EMITTERS_OFF);
 
-    // Send the results to the LCD and to the serial monitor.
-    printReadingsToLCD();
+    // Send the results to the display and to the serial monitor.
+    printReadingsToDisplay();
     printReadingsToSerial();
   }
 

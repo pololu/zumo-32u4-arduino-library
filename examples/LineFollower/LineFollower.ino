@@ -32,7 +32,7 @@ int16_t lastError = 0;
 #define NUM_SENSORS 5
 unsigned int lineSensorValues[NUM_SENSORS];
 
-// Sets up special characters in the LCD so that we can display
+// Sets up special characters for the display so that we can show
 // bar graphs.
 void loadCustomCharacters()
 {
@@ -78,7 +78,7 @@ void calibrateSensors()
   motors.setSpeeds(0, 0);
 }
 
-// Displays a bar graph of sensor readings on the LCD.
+// Shows a bar graph of sensor readings on the display.
 // Returns after the user presses A.
 void showReadings()
 {

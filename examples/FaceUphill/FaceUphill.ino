@@ -57,7 +57,7 @@ void loop()
   int16_t y = imu.a.y;
   int32_t magnitudeSquared = (int32_t)x * x + (int32_t)y * y;
 
-  // Display the X and Y acceleration values on the LCD
+  // Show the X and Y acceleration values on the display
   // every 150 ms.
   static uint8_t lastDisplayTime;
   if ((uint8_t)(millis() - lastDisplayTime) > 150)

@@ -3,7 +3,7 @@
 - Measure the voltage of the Zumo's batteries.
 - Detect whether USB power is present.
 
-The results are printed to the LCD and also to the serial
+The results are printed to the display and also to the serial
 monitor.
 
 The battery voltage can only be read when the power switch is in
@@ -31,7 +31,7 @@ void loop()
 
   uint16_t batteryLevel = readBatteryMillivolts();
 
-  // Print the results to the LCD.
+  // Print the results to the display.
   display.clear();
   display.print(F("B="));
   display.print(batteryLevel);

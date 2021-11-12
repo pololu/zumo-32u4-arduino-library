@@ -11,7 +11,7 @@ After removing the blade, be sure to reinstall the screws that
 were holding the blade.
 
 This code is sensitive to changes in the Zumo's center of mass,
-so make sure the LCD is plugged in.
+so make sure the display is plugged in.
 
 This code was designed for Zumos with 75:1 HP micro metal
 gearmotors, and it might need to be adjusted to work on Zumos
@@ -21,7 +21,8 @@ with other types of motors. */
 #include <Zumo32U4.h>
 
 // Change next line to this if you are using the older Zumo 32U4
-// with a black and green LCD display:
+// with a black and green LCD display (and see note for the
+// targetAngle constant below):
 // Zumo32U4LCD display;
 Zumo32U4OLED display;
 

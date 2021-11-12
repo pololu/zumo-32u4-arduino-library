@@ -1,4 +1,6 @@
-/* This demo program shows many features of the Zumo 32U4.
+/*
+This is a demo program for the older Zumo 32U4 with a black and green
+LCD display.
 
 It uses the buttons, LCD, and buzzer to provide a user interface.
 It presents a menu to the user that lets the user select from
@@ -6,7 +8,11 @@ several different demos.
 
 To use this demo program, you will need to have the LCD connected
 to the Zumo 32U4.  If you cannot see any text on the LCD,
-try rotating the contrast potentiometer. */
+try rotating the contrast potentiometer.
+
+If you have a newer Zumo 32U4 with a blue and black OLED display,
+use the other demo, DemoForOLEDVersion.
+*/
 
 #include <Wire.h>
 #include <Zumo32U4.h>

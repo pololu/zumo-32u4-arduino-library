@@ -8,8 +8,8 @@ select from several different demos.
 To use this demo program, you will need to have the OLED
 display connected to the Zumo 32U4.
 
-If you have an older Zumo 32U4 with a black and green LCD display, use the
-other demo, DemoForLCDVersion.
+If you have an older Zumo 32U4 with a black and green LCD display,
+use the other demo, DemoForLCDVersion.
 */
 
 #include <Wire.h>
@@ -41,7 +41,7 @@ const char beepThankYou[] PROGMEM = ">>c32>g32";
 const char beepFail[] PROGMEM = "<g-8r8<g-8r8<g-8";
 const char beepPass[] PROGMEM = ">l32c>e>g>>c8";
 
-// Custom characters for the LCD:
+// Custom characters for the display:
 
 // This character is a back arrow.
 const char backArrow[] PROGMEM = {
@@ -105,10 +105,10 @@ const char reverseArrowsSolid[] PROGMEM = {
 
 void loadCustomCharactersBackArrow()
 {
-  // The LCD supports up to 8 custom characters.  Each character
-  // has a number between 0 and 7.  We assign #7 to be the back
-  // arrow; other characters are loaded by individual demos as
-  // needed.
+  // The OLED library supports up to 8 custom characters.  Each
+  // character has a number between 0 and 7.  We assign #7 to be
+  // the back arrow; other characters are loaded by individual
+  // demos as needed.
 
   display.loadCustomCharacter(backArrow, 7);
 }
@@ -116,10 +116,13 @@ void loadCustomCharactersBackArrow()
 // Assigns #0-7 to be bar graph characters.  This overwrites the
 // back arrow, but we can use a trick that isn't possible on an
 // actual LCD by first printing #7 to get a back arrow, then
-// redefining #7 to be a bar graph character.  Unlike on an HD44780,
-// the already-printed #7 will remain a back arrow.  After a demo is
-// done using the bar graph characters, it should restore the back
-// arrow in #7 for other demos that expect it to be there.
+// redefining #7 to be a bar graph character.  The already-
+// printed #7 will remain a back arrow, unlike on an HD44780,
+// where it would change to reflect the new #7 character.
+//
+// After a demo is done using the bar graph characters, it
+// should restore the back arrow in #7 for other demos that
+// expect it to be there.
 void loadCustomCharactersBarGraph()
 {
   static const char levels[] PROGMEM = {
@@ -144,7 +147,7 @@ void loadCustomCharactersMotorDirs()
   display.loadCustomCharacter(reverseArrowsSolid, 3);
 }
 
-// Clears the LCD and puts [back_arrow]B on the second line
+// Clears the display and puts [back_arrow]B on the second line
 // to indicate to the user that the B button goes back.
 void displayBackArrow()
 {
@@ -820,7 +823,7 @@ void inertialDemo()
 // the motor is not running reverses the direction it runs.
 //
 // If the showEncoders argument is true, encoder counts are
-// displayed on the first line of the LCD; otherwise, an
+// shown on the first line of the display; otherwise, an
 // instructional message is shown.
 void motorDemoHelper(bool showEncoders)
 {
@@ -846,7 +849,7 @@ void motorDemoHelper(bool showEncoders)
     if (encCountsRight < 0) { encCountsRight += 1000; }
     if (encCountsRight > 999) { encCountsRight -= 1000; }
 
-    // Update the LCD and motors every 50 ms.
+    // Update the display and motors every 50 ms.
     if ((uint16_t)(millis() - lastUpdateTime) > 50)
     {
       lastUpdateTime = millis();

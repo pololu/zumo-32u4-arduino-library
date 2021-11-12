@@ -9,7 +9,7 @@ motors, you might need to adjust the PID constants.
 Be careful to not move the robot for a few seconds after starting
 it while the gyro is being calibrated.  During the gyro
 calibration, the yellow LED is on and the words "Gyro cal" are
-displayed on the LCD.
+shown on the display.
 
 After the gyro calibration is done, press button A to start the
 demo.  If you try to turn the Zumo, or put it on a surface that

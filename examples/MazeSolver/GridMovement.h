@@ -54,7 +54,7 @@ const int32_t gyroAngle45 = 0x20000000;
 uint16_t lineSensorValues[numSensors];
 
 
-// Sets up special characters in the LCD so that we can display
+// Sets up special characters for the display so that we can show
 // bar graphs.
 static void loadCustomCharacters()
 {
@@ -277,7 +277,7 @@ void driveToIntersectionCenter(bool * foundLeft, bool * foundStraight, bool * fo
 }
 
 // Calibrates the line sensors by turning left and right, then
-// displays a bar graph of calibrated sensor readings on the LCD.
+// shows a bar graph of calibrated sensor readings on the display.
 // Returns after the user presses A.
 static void lineSensorSetup()
 {
@@ -321,7 +321,7 @@ static void lineSensorSetup()
   // Stop the motors.
   motors.setSpeeds(0, 0);
 
-  // Show the line sensor readings on the LCD until button A is
+  // Show the line sensor readings on the display until button A is
   // pressed.
   display.clear();
   while(!buttonA.getSingleDebouncedPress())
@@ -344,7 +344,7 @@ void gridMovementSetup()
   // Configure the pins used for the line sensors.
   lineSensors.initFiveSensors();
 
-  // Set up custom characters on the LCD so we can show a bar
+  // Set up custom characters on the display so we can show a bar
   // graph of the sensor readings after calibration.
   loadCustomCharacters();
 

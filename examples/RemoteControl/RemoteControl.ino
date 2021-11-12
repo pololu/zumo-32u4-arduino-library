@@ -134,7 +134,7 @@ void processRemoteEvents()
 
 void processRemoteMessage(const uint8_t * message)
 {
-  // Print the raw message on the first line of the LCD, in hex.
+  // Print the raw message on the first line of the display, in hex.
   // The first two bytes are usually an address, and the third
   // byte is usually a command.  The last byte is supposed to be
   // the bitwise inverse of the third byte, and if that is the
@@ -153,7 +153,7 @@ void processRemoteMessage(const uint8_t * message)
   }
   display.print(buffer);
 
-  // Go to the next line of the LCD.
+  // Go to the next line of the display.
   display.gotoXY(0, 1);
 
   // Make sure the address matches what we expect.

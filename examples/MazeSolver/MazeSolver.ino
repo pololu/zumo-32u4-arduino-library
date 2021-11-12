@@ -25,7 +25,7 @@ black lines.
 Next, turn on the Zumo, and be careful to not move it for a few
 seconds afterwards while the gyro is being calibrated.  During
 the gyro calibration, the yellow LED is on and the words "Gyro
-cal" are displayed on the LCD.
+cal" are shown on the display.
 
 After the gyro calibration is done, press button A to start the
 line sensor calibration.  The robot will turn left 90 degrees,
@@ -36,7 +36,7 @@ gyro and you should power off and try again.
 
 The robot's position might shift during calibration.  If none of
 the inner three line sensors can see the line, as indicated on
-the LCD, you should reposition it to center the sensors on the
+the display, you should reposition it to center the sensors on the
 line.
 
 Press button A.  The robot will explore the maze, searching for a
@@ -181,7 +181,7 @@ void mazeSolve()
     // Simplify the learned path.
     simplifyPath();
 
-    // Display the path on the LCD.
+    // Show the path on the display.
     displayPath();
 
     // If the path is equal to "BB", it means we have searched the

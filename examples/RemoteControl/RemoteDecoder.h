@@ -60,7 +60,7 @@ public:
   // should call service() as often as possible.
   //
   // If you want to do a long blocking operation (like writing to
-  // the LCD), make sure that this function returns false, or you
+  // the display), make sure that this function returns false, or you
   // could miss commands sent by the remote.  (There should be
   // practically no risk of receiving false commands though, regardless
   // of the timing of the calls to service().)

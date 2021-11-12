@@ -107,7 +107,7 @@ Direction scanDir = DirectionLeft;
 // The time, in milliseconds, that we entered the current top-level state.
 uint16_t stateStartTime;
 
-// The time, in milliseconds, that the LCD was last updated.
+// The time, in milliseconds, that the display was last updated.
 uint16_t displayTime;
 
 // This gets set to true whenever we change to a new state.
@@ -348,7 +348,7 @@ uint16_t timeInThisState()
   return (uint16_t)(millis() - stateStartTime);
 }
 
-// Changes to a new state.  It also clears the LCD and turns off
+// Changes to a new state.  It also clears the display and turns off
 // the LEDs so that the things the previous state were doing do
 // not affect the feedback the user sees in the new state.
 void changeState(uint8_t newState)
@@ -373,8 +373,8 @@ bool displayIsStale(uint16_t staleTime)
 }
 
 // Any part of the code that uses displayIsStale to decide when
-// to update the LCD should call this function when it updates the
-// LCD.
+// to update the display should call this function when it updates the
+// display.
 void displayUpdated()
 {
   displayTime = millis();
