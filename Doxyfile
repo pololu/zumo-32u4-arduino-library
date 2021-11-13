@@ -12,4 +12,5 @@ GENERATE_LATEX = NO
 EXTRACT_STATIC = YES
 TAGFILES = ../PololuBuzzer/PololuBuzzer.tag=../pololu-buzzer-arduino \
            ../PololuHD44780/PololuHD44780.tag=../pololu-hd44780-arduino \
-           ../PololuOLED/PololuOLED.tag=../pololu-oled-arduino
+           ../PololuOLED/PololuOLED.tag=../pololu-oled-arduino \
+           ../Pushbutton/Pushbutton.tag=../pushbutton-arduino
