@@ -1,6 +1,6 @@
 # Zumo32U4 library
 
-Version: 1.3.0<br/>
+Version: 2.0.0<br/>
 Release date: 2021-11-12<br/>
 [www.pololu.com](http://www.pololu.com/)
 
@@ -71,15 +71,13 @@ This library also references several other Arduino libraries which are used to h
 * [Pushbutton](https://github.com/pololu/pushbutton-arduino)
 * [USBPause](https://github.com/pololu/usb-pause-arduino)
 
-If you require backward compatibility with older versions of the Zumo32U4 library, you can additionally install the [LSM303](https://github.com/pololu/lsm303-arduino) and [L3G](https://github.com/pololu/l3g-arduino) libraries yourself, but we recommend using the Zumo32U4IMU class to interface with the inertial sensors instead.
-
 ## Documentation
 
 For complete documentation, see https://pololu.github.io/zumo-32u4-arduino-library.  If you are already on that page, then click on the links in the "Classes and functions" section above.
 
 ## Version history
 
-* 1.3.0 (2021-11-12): Added support for the Zumo 32U4 OLED. Reorganized the library's directory structure and replaced most of the bundled component libraries with Arduino Library Manager dependencies.
+* 2.0.0 (2021-11-12): Added support for the Zumo 32U4 OLED. Reorganized the library's directory structure and replaced most of the bundled component libraries with Arduino Library Manager dependencies. Removed the previously bundled LSM303 and L3G libraries.
 * 1.2.0 (2020-09-11): Added a Zumo32U4IMU class that abstracts some details of the inertial sensors and supports different IMU types. The examples have been updated to use this class.
 * 1.1.4 (2017-07-17): Fixed a bug that caused errors from the right encoder to be reported as errors from the left encoder.
 * 1.1.3 (2016-10-12): Fixed a bug that caused the buzzer's `isPlaying` method to malfunction sometimes when link time optimization is enabled.  Also incorporated some minor fixes to the QTRSensors and LSM303 libraries.
