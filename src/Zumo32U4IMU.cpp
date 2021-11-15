@@ -119,6 +119,9 @@ void Zumo32U4IMU::enableDefault()
     // OMZ = 11 (ultra-high-performance mode for Z)
     writeReg(LIS3MDL_ADDR, LIS3MDL_REG_CTRL_REG4, 0x0C);
     return;
+
+  default:
+    // unknown - do nothing
   }
 }
 
@@ -162,6 +165,9 @@ void Zumo32U4IMU::configureForBalancing()
     // ODR = 0111 (833 Hz (high performance)); FS_G = 11 (+/- 2000 dps full scale)
     writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL2_G, 0x7C);
     return;
+
+  default:
+    // unknown - do nothing
   }
 }
 
@@ -191,6 +197,9 @@ void Zumo32U4IMU::configureForTurnSensing()
     // ODR = 0111 (833 Hz (high performance)); FS_G = 11 (+/- 2000 dps full scale)
     writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL2_G, 0x7C);
     return;
+
+  default:
+    // unknown - do nothing
   }
 }
 
@@ -215,6 +224,9 @@ void Zumo32U4IMU::configureForFaceUphill()
     // ODR = 0001 (13 Hz (high performance)); FS_XL = 00 (+/- 2 g full scale)
     writeReg(LSM6DS33_ADDR, LSM6DS33_REG_CTRL1_XL, 0x10);
     return;
+
+  default:
+    // unknown - do nothing
   }
 }
 
@@ -256,6 +268,9 @@ void Zumo32U4IMU::readAcc(void)
     // assumes register address auto-increment is enabled (IF_INC in CTRL3_C)
     readAxes16Bit(LSM6DS33_ADDR, LSM6DS33_REG_OUTX_L_XL, a);
     return;
+
+  default:
+    // unknown - do nothing
   }
 }
 
@@ -273,6 +288,9 @@ void Zumo32U4IMU::readGyro()
     // assumes register address auto-increment is enabled (IF_INC in CTRL3_C)
     readAxes16Bit(LSM6DS33_ADDR, LSM6DS33_REG_OUTX_L_G, g);
     return;
+
+  default:
+    // unknown - do nothing
   }
 }
 
@@ -290,6 +308,9 @@ void Zumo32U4IMU::readMag()
     // set MSB of register address for auto-increment
     readAxes16Bit(LIS3MDL_ADDR, LIS3MDL_REG_OUT_X_L | (1 << 7), m);
     return;
+
+  default:
+    // unknown - do nothing
   }
 }
 
@@ -313,8 +334,10 @@ bool Zumo32U4IMU::accDataReady()
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
     return readReg(LSM6DS33_ADDR, LSM6DS33_REG_STATUS_REG) & 0x01;
+
+  default:
+    return false;
   }
-  return false;
 }
 
 bool Zumo32U4IMU::gyroDataReady()
@@ -326,8 +349,10 @@ bool Zumo32U4IMU::gyroDataReady()
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
     return readReg(LSM6DS33_ADDR, LSM6DS33_REG_STATUS_REG) & 0x02;
+
+  default:
+    return false;
   }
-  return false;
 }
 
 bool Zumo32U4IMU::magDataReady()
@@ -339,8 +364,10 @@ bool Zumo32U4IMU::magDataReady()
 
   case Zumo32U4IMUType::LSM6DS33_LIS3MDL:
     return readReg(LIS3MDL_ADDR, LIS3MDL_REG_STATUS_REG) & 0x08;
+
+  default:
+    return false;
   }
-  return false;
 }
 
 int16_t Zumo32U4IMU::testReg(uint8_t addr, uint8_t reg)
