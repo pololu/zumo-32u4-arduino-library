@@ -1,7 +1,5 @@
 # Zumo32U4 library
 
-Version: 2.0.0<br/>
-Release date: 2021-11-12<br/>
 [www.pololu.com](http://www.pololu.com/)
 
 ## Summary
