@@ -183,6 +183,8 @@ void waitForButtonAndCountDown(bool restarting)
 #ifdef LOG_SERIAL
   Serial.print(restarting ? "Restarting Countdown" : "Starting Countdown");
   Serial.println();
+#else
+  (void)restarting; // suppress unused variable warning
 #endif
 
   ledRed(0);

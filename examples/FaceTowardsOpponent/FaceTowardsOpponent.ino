@@ -127,8 +127,6 @@ void loop()
 
     lastTimeObjectSeen = millis();
 
-    bool lastTurnRight = turnRight;
-
     if (leftValue < rightValue)
     {
       // The right value is greater, so the object is probably

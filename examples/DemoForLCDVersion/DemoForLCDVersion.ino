@@ -293,7 +293,6 @@ void lineSensorDemo()
   display.print('C');
 
   uint16_t lineSensorValues[3];
-  char c;
 
   while (buttonMonitor() != 'B')
   {
@@ -618,7 +617,7 @@ void musicDemo()
       }
       fugueTitlePos++;
 
-      if (fugueTitlePos + 8 >= strlen(fugueTitle))
+      if (fugueTitlePos + 8 >= (uint8_t)strlen(fugueTitle))
       {
         fugueTitlePos = 0;
       }
