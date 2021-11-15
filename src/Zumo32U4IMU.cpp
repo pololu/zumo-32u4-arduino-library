@@ -121,7 +121,7 @@ void Zumo32U4IMU::enableDefault()
     return;
 
   default:
-    // unknown - do nothing
+    return;
   }
 }
 
@@ -167,7 +167,7 @@ void Zumo32U4IMU::configureForBalancing()
     return;
 
   default:
-    // unknown - do nothing
+    return;
   }
 }
 
@@ -199,7 +199,7 @@ void Zumo32U4IMU::configureForTurnSensing()
     return;
 
   default:
-    // unknown - do nothing
+    return;
   }
 }
 
@@ -226,7 +226,7 @@ void Zumo32U4IMU::configureForFaceUphill()
     return;
 
   default:
-    // unknown - do nothing
+    return;
   }
 }
 
@@ -270,7 +270,7 @@ void Zumo32U4IMU::readAcc(void)
     return;
 
   default:
-    // unknown - do nothing
+    return;
   }
 }
 
@@ -290,7 +290,7 @@ void Zumo32U4IMU::readGyro()
     return;
 
   default:
-    // unknown - do nothing
+    return;
   }
 }
 
@@ -310,7 +310,7 @@ void Zumo32U4IMU::readMag()
     return;
 
   default:
-    // unknown - do nothing
+    return;
   }
 }
 
