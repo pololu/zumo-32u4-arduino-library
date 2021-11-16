@@ -8,7 +8,7 @@ select from several different demos.
 To use this demo program, you will need to have the OLED
 display connected to the Zumo 32U4.
 
-If you have an older Zumo 32U4 with a black and green LCD display,
+If you have an older Zumo 32U4 with an LCD display,
 use the other demo, DemoForLCDVersion.
 */
 

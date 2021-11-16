@@ -2,9 +2,11 @@
 // Zumo 32U4's gyro, calibrating it, and using it to
 // measure how much the robot has turned about its Z axis.
 //
-// This file should be included *once* in your sketch,
+// This file should be included once in your sketch,
 // somewhere after you define objects named buttonA,
 // display, and imu.
+
+#pragma once
 
 #include <Wire.h>
 

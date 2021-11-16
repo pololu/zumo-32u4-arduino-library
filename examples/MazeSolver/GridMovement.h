@@ -14,9 +14,11 @@
 // They might need to be adjusted depending on your motor and
 // battery voltage.
 //
-// This file should be included *once* in your sketch, somewhere
+// This file should be included once in your sketch, somewhere
 // after you include TurnSensor.h and define objects named
 // buttonA, display, imu, lineSensors, and motors.
+
+#pragma once
 
 #include <Wire.h>
 

@@ -10,7 +10,7 @@ To use this demo program, you will need to have the LCD connected
 to the Zumo 32U4.  If you cannot see any text on the LCD,
 try rotating the contrast potentiometer.
 
-If you have a newer Zumo 32U4 with a blue and black OLED display,
+If you have a newer Zumo 32U4 with an OLED display,
 use the other demo, DemoForOLEDVersion.
 */
 
