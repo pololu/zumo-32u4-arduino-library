@@ -1,5 +1,9 @@
-/* This example shows how to read RC pulses from pins 0 and 1 and
-use them to control the motors on the Zumo 32U4.
+/* This example shows how to read RC pulses from an external
+receiver and use them to control the motors on the Zumo 32U4.
+To use this example, connect the signals from two channels of an
+RC receiver to pins 0 (throttle) and 1 (steering) on the Zumo.
+You can use the 5V and GND pins adjacent to 0 and 1 on the top
+expansion headers to power the receiver, if appropriate.
 
 Pins 0 and 1 are display control lines, so you cannot use the
 display while running this demo. */

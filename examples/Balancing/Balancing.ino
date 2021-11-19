@@ -6,9 +6,9 @@ perfect: the robot tends to drift away from its starting position
 over time.  We found that this code works better on carpet than
 on a hard surface.
 
-You will have to remove the Zumo's blade if one is installed.
-After removing the blade, be sure to reinstall the screws that
-were holding the blade.
+You will have to remove the Zumo's blade and front sensor array if
+they are installed. After removing the blade, be sure to reinstall
+the screws that were holding the blade.
 
 This code is sensitive to changes in the Zumo's center of mass,
 so make sure the display is plugged in.
