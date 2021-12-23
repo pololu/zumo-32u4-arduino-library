@@ -1,3 +1,5 @@
+/// \file QTRSensors.h
+
 /*
   QTRSensors.h - Library for using Pololu QTR reflectance
     sensors and reflectance sensor arrays: QTR-1A, QTR-8A, QTR-1RC, and
@@ -34,9 +36,32 @@
 #ifndef QTRSensors_h
 #define QTRSensors_h
 
+/// \defgroup read_modes Read modes
+///
+/// @{
+
+/// \brief Specifies that the reading should be made without turning on the infrared
+/// (IR) emitters.
+///
+/// The reading represents ambient light levels
+/// near the sensor.
 #define QTR_EMITTERS_OFF 0
+
+/// \brief Specifies that the emitters should be turned on for the reading.
+///
+/// This results in a measure of reflectance.
 #define QTR_EMITTERS_ON 1
+
+/// \brief Specifies that a reading should be made in both the on and off states.
+///
+/// The values returned when this option is used are given by *on + max – off*,
+/// where *on* is the reading with the emitters on, *off* is the reading with
+/// the emitters off, and *max* is the maximum sensor reading. This option can
+/// reduce the amount of interference from uneven ambient lighting. Note that
+/// emitter control will only work if you specify a valid emitter pin in the
+/// constructor.
 #define QTR_EMITTERS_ON_AND_OFF 2
+/// @}
 
 #define QTR_NO_EMITTER_PIN  255
 
@@ -49,82 +74,128 @@ class QTRSensors
 {
   public:
 
-    // Reads the sensor values into an array. There *MUST* be space
-    // for as many values as there were sensors specified in the constructor.
-    // Example usage:
-    // unsigned int sensor_values[8];
-    // sensors.read(sensor_values);
-    // The values returned are a measure of the reflectance in abstract units,
-    // with higher values corresponding to lower reflectance (e.g. a black
-    // surface or a void).
-    // If measureOffAndOn is true, measures the values with the
-    // emitters on AND off and returns on - (timeout - off).  If this
-    // value is less than zero, it returns zero.
-    // This method will call the appropriate derived class's readPrivate(),
-    // which is defined as a virtual function in the base class and
-    // overridden by each derived class's own implementation.
+    /// \brief Reads the raw sensor values into an array.
+    ///
+    /// \param[out] sensor_values A pointer to an array in which to store the
+    /// raw sensor readings. There *MUST* be space for as many values as
+    /// there were sensors specified in the constructor.
+    ///
+    /// \param readMode The emitter behavior during the read (see \ref
+    /// read_modes). The default is `QTR_EMITTERS_ON`.
+    ///
+    /// Example usage:
+    /// ~~~{.cpp}
+    /// unsigned int sensor_values[8];
+    /// sensors.read(sensor_values);
+    /// ~~~
+    ///
+    /// The values returned are a measure of the reflectance in abstract units,
+    /// with higher values corresponding to lower reflectance (e.g. a black
+    /// surface or a void).
+    ///
+    /// If `measureOffAndOn` is true, measures the values with the emitters on
+    /// AND off and returns on - (timeout - off).  If this value is less than
+    /// zero, it returns zero.
+    ///
+    /// This method will call the appropriate derived class's readPrivate(),
+    /// which is defined as a virtual function in the base class and overridden
+    /// by each derived class's own implementation.
     void read(unsigned int *sensor_values, unsigned char readMode = QTR_EMITTERS_ON);
 
-    // Turn the IR LEDs off and on.  This is mainly for use by the
-    // read method, and calling these functions before or
-    // after the reading the sensors will have no effect on the
-    // readings, but you may wish to use these for testing purposes.
+    /// \brief Turns the IR LEDs off.
+    ///
+    ///  This is mainly for use by the read method, and calling this function
+    ///  before or after the reading the sensors will have no effect on the
+    ///  readings, but you may wish to use it for testing purposes.
     void emittersOff();
+
+    /// \brief Turns the IR LEDs on.
+    ///
+    ///  This is mainly for use by the read method, and calling this function
+    ///  before or after the reading the sensors will have no effect on the
+    ///  readings, but you may wish to use it for testing purposes.
     void emittersOn();
 
-    // Reads the sensors for calibration.  The sensor values are
-    // not returned; instead, the maximum and minimum values found
-    // over time are stored internally and used for the
-    // readCalibrated() method.
+    /// \brief Reads the sensors for calibration.
+    ///
+    /// The sensor values are not returned; instead, the maximum and minimum
+    /// values found over time are stored internally and used for the
+    /// readCalibrated() method.
     void calibrate(unsigned char readMode = QTR_EMITTERS_ON);
 
-    // Resets all calibration that has been done.
+    /// \brief Resets all calibration that has been done.
     void resetCalibration();
 
-    // Returns values calibrated to a value between 0 and 1000, where
-    // 0 corresponds to the minimum value read by calibrate() and 1000
-    // corresponds to the maximum value.  Calibration values are
-    // stored separately for each sensor, so that differences in the
-    // sensors are accounted for automatically.
+    /// \brief Reads the sensors and provides calibrated values between 0 and
+    /// 1000.
+    ///
+    /// \param[out] sensor_values A pointer to an array in which to store the
+    /// calibrated sensor readings. There *MUST* be space for as many values as
+    /// there were sensors specified in the constructor.
+    ///
+    /// \param readMode The emitter behavior during the read (see \ref
+    /// read_modes). The default is `QTR_EMITTERS_ON`.
+    ///
+    /// 0 corresponds to the minimum value read by calibrate() and 1000
+    /// corresponds to the maximum value.  Calibration values are
+    /// stored separately for each sensor, so that differences in the
+    /// sensors are accounted for automatically.
     void readCalibrated(unsigned int *sensor_values, unsigned char readMode = QTR_EMITTERS_ON);
 
-    // Operates the same as read calibrated, but also returns an
-    // estimated position of the robot with respect to a line. The
-    // estimate is made using a weighted average of the sensor indices
-    // multiplied by 1000, so that a return value of 0 indicates that
-    // the line is directly below sensor 0, a return value of 1000
-    // indicates that the line is directly below sensor 1, 2000
-    // indicates that it's below sensor 2000, etc.  Intermediate
-    // values indicate that the line is between two sensors.  The
-    // formula is:
-    //
-    //    0*value0 + 1000*value1 + 2000*value2 + ...
-    //   --------------------------------------------
-    //         value0  +  value1  +  value2 + ...
-    //
-    // By default, this function assumes a dark line (high values)
-    // surrounded by white (low values).  If your line is light on
-    // black, set the optional second argument white_line to true.  In
-    // this case, each sensor value will be replaced by (1000-value)
-    // before the averaging.
+    /// \brief Reads the sensors, provides calibrated values, and returns an
+    /// estimated line position.
+    ///
+    /// \param[out] sensor_values A pointer to an array in which to store the
+    /// raw sensor readings. There *MUST* be space for as many values as
+    /// there were sensors specified in the constructor.
+    ///
+    /// \param readMode The emitter behavior during the read (see \ref
+    /// read_modes). The default is `QTR_EMITTERS_ON`.
+    ///
+    /// \param white_line By default, this function assumes a dark line (high
+    /// values) surrounded by white (low values).  If your line is light on
+    /// black, set the optional argument `white_line` to true.  In this case,
+    /// each sensor value will be replaced by (1000-value) before the averaging.
+    ///
+    /// This function operates the same as readCalibrated(), but also returns an
+    /// estimated position of the robot with respect to a line. The
+    /// estimate is made using a weighted average of the sensor indices
+    /// multiplied by 1000, so that a return value of 0 indicates that
+    /// the line is directly below sensor 0, a return value of 1000
+    /// indicates that the line is directly below sensor 1, 2000
+    /// indicates that it's below sensor 2000, etc.  Intermediate
+    /// values indicate that the line is between two sensors.  The
+    /// formula is (where \f$v_0\f$ represents the value from the
+    /// first sensor):
+    ///
+    /// \f[
+    /// {(0 \times v_0) + (1000 \times v_1) + (2000 \times v_2) + \cdots
+    /// \over
+    /// v_0 + v_1 + v_2 + \cdots}
+    /// \f]
     int readLine(unsigned int *sensor_values, unsigned char readMode = QTR_EMITTERS_ON, unsigned char white_line = 0);
 
-    // Calibrated minumum and maximum values. These start at 1000 and
-    // 0, respectively, so that the very first sensor reading will
-    // update both of them.
-    //
-    // The pointers are unallocated until calibrate() is called, and
-    // then allocated to exactly the size required.  Depending on the
-    // readMode argument to calibrate, only the On or Off values may
-    // be allocated, as required.
-    //
-    // These variables are made public so that you can use them for
-    // your own calculations and do things like saving the values to
-    // EEPROM, performing sanity checking, etc.
+
+    /// \name Calibrated minumum and maximum values
+    ///
+    /// These start at 1000 and 0, respectively, so that the very first sensor
+    /// reading will update both of them.
+    ///
+    /// The pointers are unallocated until calibrate() is called, and then
+    /// allocated to exactly the size required.  Depending on the readMode
+    /// argument to calibrate, only the On or Off values may be allocated, as
+    /// required.
+    ///
+    /// These variables are made public so that you can use them for your own
+    /// calculations and do things like saving the values to EEPROM, performing
+    /// sanity checking, etc.
+    ///
+    /// @{
     unsigned int *calibratedMinimumOn;
     unsigned int *calibratedMaximumOn;
     unsigned int *calibratedMinimumOff;
     unsigned int *calibratedMaximumOff;
+    /// @}
 
     ~QTRSensors();
 

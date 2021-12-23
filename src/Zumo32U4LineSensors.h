@@ -1,5 +1,12 @@
 /** \file Zumo32U4LineSensors.h **/
 
+// Doxygen needs this to recognize that Zumo32U4LineSensors::init() overrides
+// QTRSensorsRC::init().
+#ifdef DOXYGEN
+typedef unsigned char uint8_t;
+typedef unsigned int uint16_t;
+#endif
+
 #pragma once
 
 #include <QTRSensors.h>
@@ -32,13 +39,14 @@ static const uint8_t SENSOR_LEDON = 11;
  * sensor array.
  *
  * The functions that this class inherits from QTRSensorsRC, such as read() and
- * calibrate(), are documented in the
+ * calibrate(), are also documented in the
  * [user's guide for the %QTRSensors library](https://www.pololu.com/docs/0J19).
  * %QTRSensors is a separate Arduino library with a [separate GitHub
  * repository](https://github.com/pololu/qtr-sensors-arduino), but we include a
  * copy of it in the Zumo32U4 library since it is needed for the
- * Zumo32U4LineSensors class.
- *
+ * Zumo32U4LineSensors class. (Note that the included copy of QTRSensors is an
+ * older version with some differences from the latest standalone QTRSensors
+ * library.)
  */
 class Zumo32U4LineSensors : public QTRSensorsRC
 {
@@ -72,8 +80,6 @@ public:
     }
 
     /** \brief Configures this object to use all five line sensors.
-     *
-     * This function configures this object to use all five line sensors.
      *
      * For this configuration to work, jumpers on the front sensor array must be
      * installed in order to connect pin 20 to DN2 and connect pin 4 to DN4. */
